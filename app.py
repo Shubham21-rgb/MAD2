@@ -3,6 +3,7 @@ from application.database import db
 from application.models import *
 from application.config import LocalDevelopmentConfig
 from flask_security import Security,SQLAlchemyUserDatastore
+
 #here we will use the hash password for encrypting the password
 from flask_security import hash_password
 def create_app():
@@ -37,6 +38,6 @@ with app.app_context():
                                            password=hash_password("Hotis1234"),
                                            roles=['prof'])
     db.session.commit()
-
+from application.routes import *
 if __name__=="__main__":
     app.run()
