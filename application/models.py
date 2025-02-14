@@ -19,24 +19,24 @@ class RolesUsers(db.Model):
      id=db.Column(db.Integer,primary_key=True)
      user_id=db.Column(db.Integer,db.ForeignKey('user.username'))
      role_id=db.Column(db.Integer,db.ForeignKey('role.name'))
-'''class Professional(db.Model):
+class Professional(db.Model):
     __tablename__='Professional'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='Professional')
     description=db.Column(db.String,nullable=False)
     Service_type=db.Column(db.String,nullable=False)
     Experience=db.Column(db.String,nullable=False)
     Founder=db.Column(db.String,nullable=False)
+    Verification=db.Column(db.String,default="Not Verfied")
 class Customer(db.Model):
     __tablename__='Customer'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='Customer')
     email=db.Column(db.String,db.ForeignKey('user.email'))
     username=db.Column(db.String,db.ForeignKey('user.username'))
-    description=db.Column(db.String,nullable=False)
-    Service_type=db.Column(db.String,nullable=False)
-    Experience=db.Column(db.String,nullable=False)
-    Founder=db.Column(db.String,nullable=False)'''
-    
+    address=db.Column(db.String,nullable=False)
+    contact_no=db.Column(db.String,nullable=False)
+    Verification=db.Column(db.String,default="Not Verfied")
+    f1=db.relationship('User', foreign_keys=[user_id],backref='bearer1')
+    f2=db.relationship('User', foreign_keys=[email],backref='bearer2')
+    f3=db.relationship('User', foreign_keys=[username],backref='bearer3')
