@@ -23,10 +23,10 @@ def user():
     return jsonify({
         "email":user.email,
         "password":user.password,
-        "username":user.username
+        "username":user.username  
     })
-@app.route('/api/register',methods=['POST'])
-def register():
+@app.route('/api/cregister',methods=['POST'])
+def cregister():
     cred=request.get_json()
     try:
         if not app.security.datastore.find_user(username=cred["username"]):
@@ -42,4 +42,21 @@ def register():
         return jsonify({
             "message": "Credentials already exsists"
         }),400
-    
+@app.route('/api/pregister',methods=['POST'])
+def pregister():
+    cred=request.get_json()
+    try:
+        if not app.security.datastore.find_user(username=cred["username"]):
+            app.security.datastore.create_user(username=cred["username"],
+                                                email=cred["email"],
+                                                password=hash_password(cred["password"]),
+                                                roles=['prof'])
+        db.session.commit()
+        return jsonify({
+            "message":"Professional-User created succesfully"
+        }),201
+    except:
+        return jsonify({
+            "message": "Credentials already exsists"
+        }),400
+
