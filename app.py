@@ -3,6 +3,7 @@ from application.database import db
 from application.models import *
 from application.config import LocalDevelopmentConfig
 from flask_security import Security,SQLAlchemyUserDatastore
+from werkzeug.security import generate_password_hash
 
 #here we will use the hash password for encrypting the password
 from flask_security import hash_password
@@ -25,17 +26,17 @@ with app.app_context():
     if not app.security.datastore.find_user(email="Mastercontrol@admin.com"):
         app.security.datastore.create_user(username="Admin01",
                                            email="Mastercontrol@admin.com",
-                                           password=hash_password("12345"),
+                                           password=generate_password_hash("12345"),
                                            roles=['admin'])
     if not app.security.datastore.find_user(email="RaviKisan@gmail.com"):
         app.security.datastore.create_user(username="Ravi21",
                                            email="RaviKisan@gmail.com",
-                                           password=hash_password("Hotis1234"),
+                                           password=generate_password_hash("Hotis1234"),
                                            roles=['user'])
     if not app.security.datastore.find_user(email="Gucciofficial@gmail.com"):
         app.security.datastore.create_user(username="Gucci92",
                                            email="Gucciofficial@gmail.com",
-                                           password=hash_password("Hotis1234"),
+                                           password=generate_password_hash("Hotis1234"),
                                            roles=['prof'])
     db.session.commit()
 from application.routes import *
