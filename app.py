@@ -4,13 +4,14 @@ from application.models import *
 from application.config import LocalDevelopmentConfig
 from flask_security import Security,SQLAlchemyUserDatastore
 from werkzeug.security import generate_password_hash
-
+from application.resources import api
 #here we will use the hash password for encrypting the password
 from flask_security import hash_password
 def create_app():
     app=Flask(__name__)
     app.config.from_object(LocalDevelopmentConfig)
     db.init_app(app)
+    api.init_app(app)
     datastore=SQLAlchemyUserDatastore(db,User,Role)
     app.security=Security(app,datastore)
     app.app_context().push()

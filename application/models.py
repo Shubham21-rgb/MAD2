@@ -1,7 +1,6 @@
 from .database import db
 from flask_security import UserMixin,RoleMixin
 class User(db.Model,UserMixin):
-    __tablename__='user'
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     username=db.Column(db.String,nullable=False,unique=True)
     email=db.Column(db.String,nullable=False,unique=True)
@@ -9,9 +8,11 @@ class User(db.Model,UserMixin):
     fs_uniquifier=db.Column(db.String,unique=True,nullable=False)
     roles=db.relationship('Role',secondary='roles_users',backref="bearer")
     active=db.Column(db.Boolean,nullable=False)
+    customer=db.relationship('Customer',backref='bearer')
+    professional=db.relationship('Professional',backref='bearer')
+    service=db.relationship('ServiceRequest',backref='bearer')
 
 class Role(db.Model,RoleMixin):
-     __tablename__='role'
      id=db.Column(db.Integer,primary_key=True)
      name=db.Column(db.String,nullable=False,unique=True)
      description=db.Column(db.String,nullable=False)
@@ -20,47 +21,40 @@ class RolesUsers(db.Model):
      user_id=db.Column(db.Integer,db.ForeignKey('user.username'))
      role_id=db.Column(db.Integer,db.ForeignKey('role.name'))
 class Professional(db.Model):
-    __tablename__='professional'
-    id = db.Column(db.String, primary_key=True)
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    description=db.Column(db.String,nullable=False)
-    Service_type=db.Column(db.String,nullable=False)
-    Experience=db.Column(db.String,nullable=False)
-    Founder=db.Column(db.String,nullable=False)
-    Verification=db.Column(db.String,default="Not Verfied")
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    description=db.Column(db.String,nullable=True)
+    Service_type=db.Column(db.String,nullable=True)
+    Experience=db.Column(db.String,nullable=True)
+    Founder=db.Column(db.String,nullable=True)
+    Verification=db.Column(db.String,default="Not Verfied",nullable=True)
 class Customer(db.Model):
-    __tablename__='customer'
-    id = db.Column(db.String, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    email=db.Column(db.String,db.ForeignKey('user.email'))
-    username=db.Column(db.String,db.ForeignKey('user.username'))
-    address=db.Column(db.String,nullable=False)
-    contact_no=db.Column(db.String,nullable=False)
-    Verification=db.Column(db.String,default="Not Verfied")
-    f1=db.relationship('User', foreign_keys=[user_id],backref='bearer1')
-    f2=db.relationship('User', foreign_keys=[email],backref='bearer2')
-    f3=db.relationship('User', foreign_keys=[username],backref='bearer3')
+    address=db.Column(db.String,nullable=True)
+    contact_no=db.Column(db.String,nullable=True)
+    Verification=db.Column(db.String,default="Not Verfied",nullable=True)
 
 class Service(db.Model):
-    __tablename__="service"
     id=db.Column(db.String,primary_key=True)
     Service_name=db.Column(db.String,nullable=False)
     Time_required=db.Column(db.String,nullable=False)
     Description=db.Column(db.String,nullable=False)
+    amount=db.Column(db.String,default="1000")
+    prof_id=db.Column(db.String,db.ForeignKey('user.id'),nullable=False)
+    professional=db.relationship('User',backref='services')
 
 
 class ServiceRequest(db.Model):
-    __tablename__='service_request'
     id= db.Column(db.String, primary_key=True)
-    service_id=db.Column(db.String, db.ForeignKey('service.id'))#Service model to be created
-    customer_id=db.Column(db.String, db.ForeignKey('customer.id'))
-    professional_id=db.Column(db.String, db.ForeignKey('professional.id'))
+    customer_id=db.Column(db.String, db.ForeignKey('user.id'))
     Date_of_Request=db.Column(db.String,nullable=False)
     Date_of_completion=db.Column(db.String,nullable=False)
-    Status=db.Column(db.String,nullable=False)
-    f1=db.relationship('Service', foreign_keys=[service_id],backref='bearer1')
-    f2=db.relationship('Customer', foreign_keys=[customer_id],backref='bearer2')
-    f3=db.relationship('Professional', foreign_keys=[professional_id],backref='bearer3')
+    amount=db.Column(db.String,default="1000")
+    status=db.Column(db.String,nullable=False,default="In_process")
+    service_id = db.Column(db.String, db.ForeignKey('service.id'))
+    service=db.relationship('Service',backref='request')
+
 
 class Ratings(db.Model):
     __tablename__="Ratings"

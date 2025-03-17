@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\Mad-2pro\MAD2\.env
+set VIRTUAL_ENV=D:\Mad2-pro\.env
 
 if not defined PROMPT set PROMPT=$P$G
 
