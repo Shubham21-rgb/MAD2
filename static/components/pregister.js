@@ -8,9 +8,9 @@ export default{
     <n></n>
         <div class="col" style="height: 750px;" >
             <div class="border mx-auto mt-5" style="height: 600px; width: 500px;">
-                This is to inform this is ony base registartion page addition info can be added once you enter the User-dashboard
+                This is to inform this is ony base registartion page addition info can be added once you enter the Professional-dashboard
             <div class="container w-100">
-    <h2 class="text-center">User-Registration-Form</h2>
+    <h2 class="text-center">Professional-Registration-Form</h2>
     <div>
         <label for="email" class="col-sm-2 col-form-label">Enter Your Email:</label>
         <input type="text" id="email" class="form-control" v-model="formData.email">
@@ -43,7 +43,7 @@ export default{
     },
     methods:{
         RegisUser: function(){
-            fetch('/api/cregister',{
+            fetch('/api/pregister',{
                 method: 'POST',
                 headers: {
                     "Content-Type":'application/json'

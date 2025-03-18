@@ -47,6 +47,18 @@ def userhome():
 @app.route('/api/cregister',methods=['POST'])
 def cregister():
     cred=request.get_json()
+    if not cred["username"]:
+        return{
+            "message":"username is required please register again"
+        }
+    if not cred["email"]:
+        return{
+            "message":"email is required please register again"
+        }
+    if not cred["password"]:
+        return{
+            "message":"password is required please register again"
+        } 
     
     if not app.security.datastore.find_user(username=cred["username"]):
         app.security.datastore.create_user(username=cred["username"],
@@ -63,6 +75,18 @@ def cregister():
 @app.route('/api/pregister',methods=['POST'])
 def pregister():
     cred=request.get_json()
+    if not cred["username"]:
+        return{
+            "message":"username is required please register again"
+        }
+    if not cred["email"]:
+        return{
+            "message":"email is required please register again"
+        }
+    if not cred["password"]:
+        return{
+            "message":"password is required please register again"
+        } 
     
     if not app.security.datastore.find_user(username=cred["username"]):
         app.security.datastore.create_user(username=cred["username"],
@@ -86,6 +110,10 @@ def log34():
         return jsonify({
             "message":"Email is required"
         })
+    if not password:
+        return jsonify({
+            "message":"password is required"
+        })
     user=app.security.datastore.find_user(email=email)
     if user:
         if check_password_hash(user.password,password):
@@ -105,3 +133,57 @@ def log34():
         return jsonify({
             "message":"User does not exsist "
         })
+    
+@app.route('/api/getprof',methods=['POST'])
+@auth_required('token')
+@roles_required('admin')
+def log32():
+    prof=Professional.query.all()
+    tran=[]
+    for role in prof:
+        user=User.query.filter_by(id=role.user_id)
+        for pro in user:
+            profess={}
+            profess["id"]=pro.id
+            profess["username"]=pro.username
+            profess["email"]=pro.email
+            tran.append(profess)
+    if tran:
+        return tran
+    return{
+        "message":"Unable to get"
+    }
+@app.route('/api/getser',methods=['POST'])
+@auth_required('token')
+@roles_accepted('user','prof','admin')
+def log30():
+    prof=Service.query.all()
+    tran=[]
+    for role in prof:
+        profess={}
+        profess["id"]=role.id
+        profess["Service_name"]=role.Service_name
+        profess["Time_required"]=role.Time_required
+        profess["Description"]=role.Description
+        profess["amount"]=role.amount
+        profess["prof_id"]=role.prof_id
+        tran.append(profess)
+    if tran:
+        return tran
+    return{
+        "message":"Unable to get"
+    }
+@app.route('/api/getsers',methods=['POST'])
+def log28():
+    prof=Service.query.all()
+    tran=[]
+    for role in prof:
+        profess={}
+        profess["ids"]=role.id
+        profess["amount"]=role.amount
+        tran.append(profess)
+    if tran:
+        return tran
+    return{
+        "message":"Unable to get"
+    }

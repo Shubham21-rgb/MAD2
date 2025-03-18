@@ -8,8 +8,8 @@ class User(db.Model,UserMixin):
     fs_uniquifier=db.Column(db.String,unique=True,nullable=False)
     roles=db.relationship('Role',secondary='roles_users',backref="bearer")
     active=db.Column(db.Boolean,nullable=False)
-    customer=db.relationship('Customer',backref='bearer')
-    professional=db.relationship('Professional',backref='bearer')
+    customer=db.relationship('Customer',uselist=False,backref='bearer')
+    professional=db.relationship('Professional',uselist=False,backref='bearer')
     service=db.relationship('ServiceRequest',backref='bearer')
 
 class Role(db.Model,RoleMixin):
@@ -22,7 +22,7 @@ class RolesUsers(db.Model):
      role_id=db.Column(db.Integer,db.ForeignKey('role.name'))
 class Professional(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'),unique=True)
     description=db.Column(db.String,nullable=True)
     Service_type=db.Column(db.String,nullable=True)
     Experience=db.Column(db.String,nullable=True)
@@ -30,7 +30,7 @@ class Professional(db.Model):
     Verification=db.Column(db.String,default="Not Verfied",nullable=True)
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),unique=True)
     address=db.Column(db.String,nullable=True)
     contact_no=db.Column(db.String,nullable=True)
     Verification=db.Column(db.String,default="Not Verfied",nullable=True)
@@ -41,12 +41,12 @@ class Service(db.Model):
     Time_required=db.Column(db.String,nullable=False)
     Description=db.Column(db.String,nullable=False)
     amount=db.Column(db.String,default="1000")
-    prof_id=db.Column(db.String,db.ForeignKey('user.id'),nullable=False)
-    professional=db.relationship('User',backref='services')
+    prof_id=db.Column(db.String,db.ForeignKey('user.id'),nullable=False,unique=True)
+    professional=db.relationship('User',uselist=False,backref='services')
 
 
 class ServiceRequest(db.Model):
-    id= db.Column(db.String, primary_key=True)
+    id= db.Column(db.Integer, primary_key=True,autoincrement=True)
     customer_id=db.Column(db.String, db.ForeignKey('user.id'))
     Date_of_Request=db.Column(db.String,nullable=False)
     Date_of_completion=db.Column(db.String,nullable=False)
@@ -54,6 +54,9 @@ class ServiceRequest(db.Model):
     status=db.Column(db.String,nullable=False,default="In_process")
     service_id = db.Column(db.String, db.ForeignKey('service.id'))
     service=db.relationship('Service',backref='request')
+    __table_args__ = (
+        db.UniqueConstraint('customer_id', 'service_id', name='unique_attribute_pair'),
+    )
 
 
 class Ratings(db.Model):

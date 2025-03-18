@@ -1,18 +1,24 @@
+import Navbar from "./Navbar.js"
 export default{
+    components:{
+        'n':Navbar
+
+    },
     template:`
     <div class="row border">
-        <div class="col" style="height: 750px;" >
-            <div class="border mx-auto mt-5" style="height: 400px; width: 300px;">
+    <n></n>
+        <div class="col" style="height: 750px; width:600px;" >
+            <div class="border mx-auto mt-5" style="height: 600px; width: 500px;">
                 Login-Area
                 <div>
     <h2 class="text-center">Login-Form</h2>
     <div>
-        <label for="email">Enter Your Email:</label>
-        <input type="text" id="email" v-model="formData.email">
+        <label for="email" class="col-sm-2 col-form-label">Enter Your Email:</label>
+        <input type="text" id="email" class="form-control" v-model="formData.email">
     </div>
     <div>
-        <label for="pass">Enter Your Password:</label>
-        <input type="password" id="pass" v-model="formData.password">
+        <label for="pass" class="col-sm-2 col-form-label">Enter Your Password:</label>
+        <input type="password" id="pass" class="form-control" v-model="formData.password">
     </div>
     <div>{{message}}</div>
     <div>

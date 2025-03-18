@@ -1,0 +1,261 @@
+import Navbar1 from "./Navbar1.js"
+export default{
+    components:{
+        'n':Navbar1
+    },
+    template:`
+    <div>
+    <n></n>
+    <h2>Welcome {{userData.username}}</h2>
+    <div class="row border">
+        <div class="col-7 border" style="height: 750px; overflow-y:scroll">
+            <h2>Services Available</h2>
+            <div v-for="t in service" class="card">
+                <div v-if="t.Service_name == 'Household Cleaning'">
+                    <p>{{t.Service_name}}</p>
+                    <div class="card-body">
+                        <h5 class="card-title">Service</h5>
+                        <p class="card-text">ID: {{t.id}}</p>
+                        <p class="card-text">Time Required: {{t.Time_required}}</p>
+                        <p class="card-text">About: {{t.Description}}</p>
+                        <p class="card-text">Amount: {{t.amount}} </p>
+                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount}}" class="btn btn-warning">Select</router-link>
+                    </div>
+                </div>
+                <div v-if="t.Service_name == 'Household Electricals'">
+                    <p>{{t.Service_name}}</p>
+                    <div class="card-body">
+                        <h5 class="card-title">Service</h5>
+                        <p class="card-text">ID: {{t.id}}</p>
+                        <p class="card-text">Time Required: {{t.Time_required}}</p>
+                        <p class="card-text">About: {{t.Description}}</p>
+                        <p class="card-text">Amount: {{t.amount}} </p>
+                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount}}" class="btn btn-warning">Select</router-link>
+                    </div>
+                </div>
+                <div v-if="t.Service_name == 'Household Sanitary'">
+                    <p>{{t.Service_name}}</p>
+                    <div class="card-body">
+                        <h5 class="card-title">Service</h5>
+                        <p class="card-text">ID: {{t.id}}</p>
+                        <p class="card-text">Time Required: {{t.Time_required}}</p>
+                        <p class="card-text">About: {{t.Description}}</p>
+                        <p class="card-text">Amount: {{t.amount}} </p>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                    </div>
+                </div>
+                <div v-if="t.Service_name == 'Household Security'">
+                    <p>{{t.Service_name}}</p>
+                    <div class="card-body">
+                        <h5 class="card-title">Service</h5>
+                        <p class="card-text">ID: {{t.id}}</p>
+                        <p class="card-text">Time Required: {{t.Time_required}}</p>
+                        <p class="card-text">About: {{t.Description}}</p>
+                        <p class="card-text">Amount: {{t.amount}} </p>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                    </div>
+                </div>
+                <div v-if="t.Service_name == 'Household Garderning'">
+                    <p>{{t.Service_name}}</p>
+                    <div class="card-body">
+                        <h5 class="card-title">Service</h5>
+                        <p class="card-text">ID: {{t.id}}</p>
+                        <p class="card-text">Time Required: {{t.Time_required}}</p>
+                        <p class="card-text">About: {{t.Description}}</p>
+                        <p class="card-text">Amount: {{t.amount}} </p>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="col-5 border" style="height: 750px;overflow-y:scroll;overflow-x:scroll">
+    <h4>Service History</h4>
+        <p>Accepted Services</p>
+        <div v-for="t in transactions" v-if="t.status=='Accepted'" class="card mt-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer ID</th>
+                        <th scope="col">Date of Request</th>
+                        <th scope="col">Date of completion</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Service ID</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>{{t.customer_id}}</td>
+                    <td>{{t.Date_of_Request}}</td>
+                    <td>{{t.Date_of_completion}}</td>
+                    <td>{{t.amount}}</td>
+                    <td>{{t.service_id}}</td>
+                    <td>
+                        <button @click="pay" class="btn btn-info btn-sm">Pay</button>
+                    </td>
+                </tbody>
+            </table>
+        </div>
+        <p>Completed Services</p>
+        <div v-for="t in transactions" v-if="t.status=='Completed'" class="card mt-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer ID</th>
+                        <th scope="col">Date of Request</th>
+                        <th scope="col">Date of completion</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Service ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>{{t.customer_id}}</td>
+                        <td>{{t.Date_of_Request}}</td>
+                        <td>{{t.Date_of_completion}}</td>
+                        <td>{{t.amount}}</td>
+                        <td>{{t.service_id}}</td>
+                    </tbody>
+                </table>
+            </div>
+            <p>Pending Services</p>
+            <div v-for="t in transactions" v-if="t.status=='Pending'" class="card mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Date of Request</th>
+                            <th scope="col">Date of completion</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Service ID</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>{{t.customer_id}}</td>
+                        <td>{{t.Date_of_Request}}</td>
+                        <td>{{t.Date_of_completion}}</td>
+                        <td>{{t.amount}}</td>
+                        <td>{{t.service_id}}</td>
+                        <td>
+                            <button @click="close" class="btn btn-primary">Close</button>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+            <p>Closed Services</p>
+            <div v-for="t in transactions" v-if="t.status=='Closed'" class="card mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Date of Request</th>
+                            <th scope="col">Date of completion</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Service ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>{{t.customer_id}}</td>
+                        <td>{{t.Date_of_Request}}</td>
+                        <td>{{t.Date_of_completion}}</td>
+                        <td>{{t.amount}}</td>
+                        <td>{{t.service_id}}</td>
+                    </tbody>
+                </table>
+            </div>
+            <p>Accepted Services</p>
+            <div v-for="t in transactions" v-if="t.status=='Rejected'" class="card mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Date of Request</th>
+                            <th scope="col">Date of completion</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Service ID</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>{{t.customer_id}}</td>
+                        <td>{{t.Date_of_Request}}</td>
+                        <td>{{t.Date_of_completion}}</td>
+                        <td>{{t.amount}}</td>
+                        <td>{{t.service_id}}</td>
+                        <td>
+                            <button @click="del" class="btn btn-info btn-sm">Delete</button>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>`,
+    data: function(){
+        return{
+            userData:"",
+            transactions:null,
+            message:"",
+            service:null,
+            ser:null
+        }
+    },
+    mounted(){ 
+        this.loadTrans()
+        this.loadUser()
+        this.loadser()
+        this.loadsers()
+    },
+    methods:{
+        loadUser(){
+            fetch('/api/home',{
+                method:'GET',  
+                headers:{
+                    "Content-Type":'application/json',
+                    "Authentication-Token":localStorage.getItem("auth_token")
+                }
+            }).then(response => response.json())
+            .then(data => this.userData=data)
+        },
+        loadTrans(){
+            fetch('/api/get',{
+                method:'GET',
+                headers:{
+                    "Content-Type":'application/json',
+                    "Authentication-Token":localStorage.getItem("auth_token")
+                }
+            }).then(response => response.json())
+            .then(data =>this.transactions=data)
+        },
+        loadser(){
+            fetch('/api/getser',{
+                method:'POST',
+                headers:{
+                    "Content-Type":'application/json',
+                    "Authentication-Token":localStorage.getItem("auth_token")
+                }
+            }).then(response => response.json())
+            .then(data => 
+                this.service=data)
+        },
+        pay(){
+
+        },
+        del(){
+
+        },
+        loadsers(){
+            fetch('/api/getsers',{
+                method:'POST',
+                headers:{
+                    "Content-Type":'application/json'
+
+                }
+            }).then(response => response.json())
+            .then(data => 
+                this.ser=data)
+        },
+        close(){
+            
+        }
+    }                                      
+}

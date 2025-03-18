@@ -44,7 +44,7 @@ class TransApi(Resource):
         },400
     @auth_required('token')
     @roles_accepted('prof','user','admin')
-    def post(self):
+    def post(self,trans_id):
         if 'prof' in roles_list(current_user.roles):
             parser.add_argument('id', type=str, required=True)
             parser.add_argument('service_name', type=str, required=True, help='Name cannot be blank')
@@ -70,20 +70,16 @@ class TransApi(Resource):
                 "message":"Service feilds are missiing"
                 }
         elif 'user' in roles_list(current_user.roles):
-            parser.add_argument('id', type=str, required=True)
-            parser.add_argument('amt', type=str, required=True)
-            parser.add_argument('status', type=str, required=True)
-            parser.add_argument('service_id', type=str, required=True)
-            parser.add_argument('Date_of_completion', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
             args= parser.parse_args()
             try:
-                servreq=ServiceRequest(    id=args['id'],
+                servreq=ServiceRequest( 
                                         customer_id=current_user.id,
                                         Date_of_Request=datetime.datetime.now(),
                                         Date_of_completion="to_be_updated",
-                                        amount=args['amt'],
-                                        status="pending",
-                                        service_id=args['service_id'])
+                                        amount=args['amount'],
+                                        status="Pending",
+                                        service_id=trans_id)
                 db.session.add(servreq)
                 db.session.commit()
                 return{
@@ -117,7 +113,7 @@ class TransApi(Resource):
                 } 
             except:
                 return{
-                "message":"Service feilds are missiing"
+                "message":"Service feilds are missiing or exsists"
                 }
     @auth_required('token')
     @roles_accepted('prof','admin','user')
@@ -199,6 +195,61 @@ class TransApi(Resource):
         elif "user" in roles_list(current_user.roles):
             t=ServiceRequest.query.get(trans_id)
 
+class newapi(Resource):
+    @auth_required('token')
+    @roles_accepted('admin','prof')
+    def post(self):
+        if 'prof' in roles_list(current_user.roles):
+            parser.add_argument('id', type=str, required=True)
+            parser.add_argument('service_name', type=str, required=True, help='Name cannot be blank')
+            parser.add_argument('Time_required', type=str, required=True, help='Customer-id cannot be blank')
+            parser.add_argument('Description', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
+            args= parser.parse_args()
+            try:
+                Service_create=Service(id=args['id'],
+                                    Service_name=args['service_name'],
+                                    Time_required=args['Time_required'],
+                                    Description=args['Description'],
+                                    amount=args['amount'],
+                                    prof_id=current_user.id
+                                    )
+                db.session.add(Service_create)
+                db.session.commit()
+                return{
+                    "message":"Service Created Succesfully Generated"
+                } 
+            except:
+                return{
+                "message":"Service feilds are missiing"
+                }
+        elif 'admin'in roles_list(current_user.roles):
+            parser.add_argument('id', type=str, required=True)
+            parser.add_argument('service_name', type=str, required=True, help='Name cannot be blank')
+            parser.add_argument('Time_required', type=str, required=True, help='Customer-id cannot be blank')
+            parser.add_argument('Description', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
+            parser.add_argument('prof_id', type=str, required=True)
+            args= parser.parse_args()
+            try:
+                Service_create=Service(id=args['id'],
+                                    Service_name=args['service_name'],
+                                    Time_required=args['Time_required'],
+                                    Description=args['Description'],
+                                    amount=args['amount'],
+                                    prof_id=args['prof_id']
+                                    )
+                db.session.add(Service_create)
+                db.session.commit()
+                return{
+                    "message":"Service Created Succesfully Generated"
+                } 
+            except:
+                return{
+                "message":"Service feilds are missiing or exsists"
+                }
+
 
     
-api.add_resource(TransApi,'/api/get','/api/create','/api/update/<int:trans_id>','/api/delete/<int:trans_id>')
+api.add_resource(TransApi,'/api/get','/api/create/<int:trans_id>','/api/update/<int:trans_id>','/api/delete/<int:trans_id>')
+api.add_resource(newapi,'/api/create')
