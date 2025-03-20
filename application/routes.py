@@ -187,3 +187,115 @@ def log28():
     return{
         "message":"Unable to get"
     }
+
+#to update status to Accepted
+@app.route('/api/accept/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log27(id):
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.status="Accepted"
+    db.session.commit()
+    return{
+        "message":"Updated Succesfully"
+    }
+
+#to update status to Rejected
+@app.route('/api/reject/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log26(id):
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.status="Rejected"
+    db.session.commit()
+    return{
+        "message":"Updated Succesfully"
+    }
+#to Delete close/rejected Service
+@app.route('/api/deleted/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log25(id):
+    servicerequest=ServiceRequest.query.get(id)
+    db.session.delete(servicerequest)
+    db.session.commit()
+    return{
+        "message":"Deleted Succesfully"
+    }
+
+#Pay part wroks as Completed Services
+@app.route('/api/pay/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('user')
+def log24(id):
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.status="Completed"
+    db.session.commit()
+    return{
+        "message":"Paid Succesfully"
+    }
+#professional user used to change status to Completed
+@app.route('/api/complete/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log23(id):
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.status="Completed"
+    db.session.commit()
+    return{
+        "message":"Changed Succesfully"
+    }
+#professional user used to change status to Closed
+@app.route('/api/close/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log22(id):
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.status="Closed"
+    db.session.commit()
+    return{
+        "message":"Changed Succesfully"
+    }
+# user used to change cancel-Pending requets means to delete
+@app.route('/api/cancel/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('user')
+def log21(id):
+    servicerequest=ServiceRequest.query.get(id)
+    db.session.delete(servicerequest)
+    db.session.commit()
+    return{
+        "message":"Closed-Service Permanently"
+    }
+
+# To Update the date Of Completion
+@app.route('/api/tupdate/<int:id>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof','admin')
+def log20(id):
+    body=request.get_json()
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.Date_of_completion=body["time"]
+    db.session.commit()
+    return{
+        "message":"Updated Succesfully"
+    }
+
+#To get professional Service
+@app.route('/api/entry',methods=['POST'])
+@auth_required('token')
+@roles_accepted('prof')
+def log19():
+    user=current_user
+    prof=Service.query.filter_by(prof_id=user.id)
+    tran=[]
+    for role in prof:
+        profess={}
+        profess["ids"]=role.id
+        tran.append(profess)
+    if tran:
+        return tran
+    return{
+        "message":"Unable to get"
+    }
+

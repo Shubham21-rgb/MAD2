@@ -32,6 +32,9 @@ export default {
                                     <td>
                                         <button @click="compl" class="btn btn-info btn-sm">Completed</button>
                                     </td>
+                                    <td>
+                                        <button @click="compl" class="btn btn-info btn-sm">Update</button>
+                                    </td>
                                 </tbody>
                             </table>
                         </div>

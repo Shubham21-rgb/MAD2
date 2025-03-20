@@ -1,14 +1,16 @@
 export default{
     template:`
             <div>
-                <p>Are you sure you want to place a request of amount {{amount}} and service-id{{id}}</p>
+                <p>Are you sure you want t Accept the request</p>
+                <p>You are going delete id {{id}} permenantly</p>
                 <button class="btn btn-success" @click="save">Confirm</button>
             </div>
         `,
                 data:function(){
                     return{
                         id:null,
-                        amount:null
+                        status:null,
+                        message:""
                     }
                 },
                 mounted(){
@@ -17,15 +19,15 @@ export default{
                 methods:{
                     cr(){
                         this.id = this.$route.params.id,
-                        this.amount= this.$route.params.amount
+                        this.status= this.$route.params.status
                     },
 
                     save(){
                         const data12={
                             id : this.$route.params.id,
-                            amount: this.$route.params.amount
+                            status: this.$route.params.status
                         };
-                        fetch(`/api/create/${this.$route.params.id}`,{
+                        fetch(`/api/deleted/${this.$route.params.id}`,{
                             method:'POST',
                             headers: {
                                 "Content-Type":'application/json',
@@ -34,9 +36,10 @@ export default{
                             body:JSON.stringify(data12)
                     }).then(response => response.json())
                     .then(data =>{
-                            console.log(data);
-                            alert("Succesfull placed");
-                            this.$router.push('/dashboard');
+                        console.log(data);
+                        const message=data;
+                        alert("Succesfully Deleted");
+                        this.$router.push('/pdashboard');
                     }
                     )}
                     }

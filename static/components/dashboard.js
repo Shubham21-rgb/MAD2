@@ -6,7 +6,7 @@ export default{
     template:`
     <div>
     <n></n>
-    <h2>Welcome {{userData.username}}</h2>
+    <h2>Welcome {{userData.username}} Customer</h2>
     <div class="row border">
         <div class="col-7 border" style="height: 750px; overflow-y:scroll">
             <h2>Services Available</h2>
@@ -90,7 +90,7 @@ export default{
                     <td>{{t.amount}}</td>
                     <td>{{t.service_id}}</td>
                     <td>
-                        <button @click="pay" class="btn btn-info btn-sm">Pay</button>
+                        <router-link :to="{name:'cpay',params:{id: t.id,status: t.status}}" class="btn btn-warning">Pay</router-link>
                     </td>
                 </tbody>
             </table>
@@ -105,6 +105,7 @@ export default{
                         <th scope="col">Date of completion</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Service ID</th>
+                        <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,6 +114,9 @@ export default{
                         <td>{{t.Date_of_completion}}</td>
                         <td>{{t.amount}}</td>
                         <td>{{t.service_id}}</td>
+                        <td>
+                            <button @click="rate" class="btn btn-primary">Rate</button>
+                        </td>
                     </tbody>
                 </table>
             </div>
@@ -136,7 +140,7 @@ export default{
                         <td>{{t.amount}}</td>
                         <td>{{t.service_id}}</td>
                         <td>
-                            <button @click="close" class="btn btn-primary">Close</button>
+                            <router-link :to="{name:'cancel',params:{id: t.id,status: t.status}}" class="btn btn-warning">Cancel</router-link>
                         </td>
                     </tbody>
                 </table>
@@ -162,7 +166,7 @@ export default{
                     </tbody>
                 </table>
             </div>
-            <p>Accepted Services</p>
+            <p>Rejected Services</p>
             <div v-for="t in transactions" v-if="t.status=='Rejected'" class="card mt-2">
                 <table class="table table-striped">
                     <thead>
@@ -256,6 +260,9 @@ export default{
         },
         close(){
             
+        },
+        rate(){
+
         }
     }                                      
 }
