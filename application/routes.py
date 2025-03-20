@@ -1,4 +1,4 @@
-from flask import current_app as app,jsonify,request,render_template
+from flask import current_app as app,jsonify,request,render_template,send_from_directory
 from flask_security import auth_required, roles_required,current_user,login_user,roles_accepted
 from application.database import db
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -303,17 +303,15 @@ def log19():
 
 @app.route('/api/export')
 def export_csv():
+    user=current_user
     result=csv_report.delay()#async object
     return jsonify({
         "id":result.id,
-        "result":result.result
+        "result":result.result,
     })
 
 @app.route('/api/csv_result/<id>')
 def csv_result(id):
-    result=AsyncResult(id)
-    return {
-        "ready": result.ready(),
-        "successful": result.successful(),
-        "value": result.result if result.ready() else None,
-    }
+    result = AsyncResult(id)
+    
+    return send_from_directory('static', result.result)

@@ -7,6 +7,9 @@ export default {
    <div>
     <n></n>
         <h2 class="my-2">Welcome, {{userData.username}}!</h2>
+        <div class="row border">
+            <div class="text-end"><button @click="csvd" class="btn btn-info btn-sm">Download CSV</button></div>
+        </div>
             <div class="row border">
                 <div class="col-8 border" style="height: 750px; overflow-y: scroll">
                     <h2>All Service_Request</h2>
@@ -241,6 +244,13 @@ export default {
             .then(response => response.json())
             .then(data => {
                 this.message=data
+            })
+        },
+        csvd(){
+            fetch('/api/export')
+            .then(response => response.json())
+            .then(data=>{
+                window.location.href = `/api/csv_result/${data.id}`
             })
         }
     }
