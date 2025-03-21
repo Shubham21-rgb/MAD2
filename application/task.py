@@ -1,5 +1,8 @@
 from celery import shared_task
+from .models import ServiceRequest
 import time
+import datetime
+import csv
 
 @shared_task(ignore_result=False,name="download_csv_report")
 def csv_report():
@@ -9,9 +12,9 @@ def csv_report():
     # csvfile = open(f'static/{csv_file_name}', 'w', newline = "")
         sr_no = 1
         trans_csv = csv.writer(csvfile, delimiter = ',')
-        trans_csv.writerow(['Sr No.','Unique id', 'Customer Name', 'Type', 'Created at', 'Delivery Date', 'Source', 'Destination', 'Date_of_Request', 'Date_of_completion', 'Amount', 'Service id'])
+        trans_csv.writerow(['Sr No.','Unique id', 'Customer Name', 'Date_of_Request', 'Date_of_completion', 'Amount', 'Service id'])
         for t in transactions:
-            this_trans = [sr_no, t.id,t.services.username, t.Date_of_Request, t.Date_of_completion, t.amount, t.prof_id]
+            this_trans = [sr_no, t.id,t.bearer.username, t.Date_of_Request, t.Date_of_completion, t.amount, t.service_id]
             trans_csv.writerow(this_trans)
             sr_no += 1
 
