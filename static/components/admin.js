@@ -1,7 +1,7 @@
-import Navbar1 from "./Navbar1.js"
+import adminnav from "./adminnav.js"
 export default {
     components:{
-       "n": Navbar1,
+       "n": adminnav
     },
     template: `
    <div>
@@ -33,10 +33,10 @@ export default {
                                     <td>{{t.amount}}</td>
                                     <td>{{t.service_id}}</td>
                                     <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Completed</button>
+                                        <router-link :to="{name:'acomplete',params:{id: t.id,status: t.status}}" class="btn btn-warning">Completed</router-link>
                                     </td>
                                     <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Update</button>
+                                        <router-link :to="{name:'aupdate',params:{id: t.id,status: t.status,Request_date:t.Date_of_Request}}" class="btn btn-warning">Update</router-link>
                                     </td>
                                 </tbody>
                             </table>
@@ -59,10 +59,10 @@ export default {
                                     <td>{{t.Date_of_completion}}</td>
                                     <td>{{t.service_id}}</td>
                                     <td>
-                                        <button @click="accept" class="btn btn-info btn-sm">Accept</button>
+                                        <router-link :to="{name:'adminaccept',params:{id: t.id,status: t.status}}" class="btn btn-warning">Accept</router-link>
                                     </td>
                                     <td>
-                                        <button @click="reject" class="btn btn-info btn-sm">Reject</button>
+                                        <router-link :to="{name:'adminreject',params:{id: t.id,status: t.status}}" class="btn btn-warning">Reject</router-link>
                                     </td>
                                 </tbody>
                              </table>
@@ -74,7 +74,6 @@ export default {
                                     <tr>
                                     <th scope="col">Customer ID</th>
                                     <th scope="col">Date of Request Name</th>
-                                    <th scope="col">Date of completion</th>
                                     <th scope="col">Service ID</th>
                                     <th scope="col">Actions</th>
                                     </tr>
@@ -82,10 +81,9 @@ export default {
                                 <tbody>
                                     <td>{{t.customer_id}}</td>
                                     <td>{{t.Date_of_Request}}</td>
-                                    <td>{{t.Date_of_completion}}</td>
                                     <td>{{t.service_id}}</td>
                                     <td>
-                                        <button @click="close" class="btn btn-info btn-sm">Close</button>
+                                        <router-link :to="{name:'aclose',params:{id: t.id,status: t.status}}" class="btn btn-warning">Close</router-link>
                                     </td>
                                 </tbody>
                             </table>
@@ -108,7 +106,30 @@ export default {
                                     <td>{{t.Date_of_completion}}</td>
                                     <td>{{t.service_id}}</td>
                                     <td>
-                                        <button @click="del" class="btn btn-info btn-sm">Delete</button>
+                                        <router-link :to="{name:'adelete',params:{id: t.id,status: t.status}}" class="btn btn-warning">Delete</router-link>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    <p>Rejected Services</p>
+                        <div v-for="t in transactions" v-if="t.status=='Rejected'" class="card mt-2">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Date of Request</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Service ID</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>{{t.customer_id}}</td>
+                                    <td>{{t.Date_of_Request}}</td>
+                                    <td>{{t.amount}}</td>
+                                    <td>{{t.service_id}}</td>
+                                    <td>
+                                        <router-link :to="{name:'adelete',params:{id: t.id,status: t.status}}" class="btn btn-warning">Delete</router-link>
                                     </td>
                                 </tbody>
                             </table>

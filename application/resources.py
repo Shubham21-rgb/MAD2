@@ -63,6 +63,7 @@ class TransApi(Resource):
     @roles_accepted('user')
     def post(self,trans_id):
         if 'user' in roles_list(current_user.roles):
+            parser.add_argument('id',type=str,required=True)
             parser.add_argument('amount', type=str, required=True)
             args= parser.parse_args()
             try:
@@ -72,10 +73,10 @@ class TransApi(Resource):
                                         Date_of_completion="to_be_updated",
                                         amount=args['amount'],
                                         status="Pending",
-                                        service_id=trans_id)
+                                        service_id=args["id"])
                 db.session.add(servreq)
                 db.session.commit()
-                return{
+                return{   
                 "message":"Request Created Succesfully Generated"
                 } 
                 

@@ -1,7 +1,7 @@
-import Navbar1 from "./Navbar1.js"
+import cusnav from "./cusnav.js"
 export default{
     components:{
-        'n':Navbar1
+        'n':cusnav
     },
     template:`
     <div>
@@ -102,7 +102,6 @@ export default{
                     <tr>
                         <th scope="col">Customer ID</th>
                         <th scope="col">Date of Request</th>
-                        <th scope="col">Date of completion</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Service ID</th>
                         <th scope="col">Action</th>
@@ -111,7 +110,6 @@ export default{
                     <tbody>
                         <td>{{t.customer_id}}</td>
                         <td>{{t.Date_of_Request}}</td>
-                        <td>{{t.Date_of_completion}}</td>
                         <td>{{t.amount}}</td>
                         <td>{{t.service_id}}</td>
                         <td>

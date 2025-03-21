@@ -216,7 +216,7 @@ def log26(id):
 #to Delete close/rejected Service
 @app.route('/api/deleted/<int:id>',methods=['POST'])
 @auth_required('token')
-@roles_accepted('prof','admin')
+@roles_accepted('prof')
 def log25(id):
     servicerequest=ServiceRequest.query.get(id)
     db.session.delete(servicerequest)
@@ -273,7 +273,7 @@ def log21(id):
 # To Update the date Of Completion
 @app.route('/api/tupdate/<int:id>',methods=['POST'])
 @auth_required('token')
-@roles_accepted('prof','admin')
+@roles_accepted('prof')
 def log20(id):
     body=request.get_json()
     servicerequest=ServiceRequest.query.get(id)
@@ -315,3 +315,270 @@ def csv_result(id):
     result = AsyncResult(id)
     
     return send_from_directory('static', result.result)
+
+################## Customer and Professional Verification part by User##################
+@app.route('/api/cdetails')
+@auth_required('token')
+@roles_accepted('admin')
+def cdetail():
+    acc_val=[]
+    cus=Customer.query.all()
+    for t in cus:
+        value={}
+        value["id"]=t.id
+        value["user_id"]=t.user_id
+        value["username"]=t.bearer.username
+        value["address"]=t.address
+        value["contact_no"]=t.contact_no
+        value["Verification"]=t.Verification
+        acc_val.append(value)
+    if acc_val:
+        return acc_val
+    else:
+        return {
+            "message":"No Customer available"
+        }
+
+
+@app.route('/api/pdetails')
+@auth_required('token')
+@roles_accepted('admin')
+def pdetail():
+    acc_val=[]
+    cus=Professional.query.all()
+    for t in cus:
+        value={}
+        value["id"]=t.id
+        value["user_id"]=t.user_id
+        value["username"]=t.bearer.username
+        value["description"]=t.description
+        value["Experience"]=t.Experience
+        value["Verification"]=t.Verification
+        acc_val.append(value)
+    if acc_val:
+        return acc_val
+    else:
+        return {
+            "message":"No Professional available"
+        }
+
+@app.route('/api/ratings')
+@auth_required('token')
+@roles_accepted('admin','prof')
+def ratings():
+    acc_val=[]
+    cus=Ratings.query.all()
+    for t in cus:
+        value={}
+        value["id"]=t.id
+        value["review"]=t.review
+        value["remarks"]=t.remarks
+        acc_val.append(value)
+    if acc_val:
+        return acc_val
+    else:
+        return {
+            "message":"No Ratings available"
+        }
+    
+############################# Verify profeesional and customer ####################
+@app.route('/api/cverify/<int:id>') 
+@auth_required('token')
+@roles_accepted('admin')
+def cverify(id):
+    cus=Customer.query.get(id)
+    if cus:
+        cus.Verification="Verified"
+        db.session.commit()
+        return{
+            "message":"succesfully Verified"
+        }
+    else:
+        return{
+            "message":"Cannot Verify"
+        }
+
+@app.route('/api/pverify/<int:id>') 
+@auth_required('token')
+@roles_accepted('admin')
+def pverify(id):
+    cus=Professional.query.get(id)
+    if cus:
+        cus.Verification="Verified"
+        db.session.commit()
+        return{
+            "message":"succesfully Verified"
+        }
+    else:
+        return{
+            "message":"Cannot Verify"
+        }
+############################# Block profeesional and customer ####################
+
+@app.route('/api/cblock/<int:id>') 
+@auth_required('token')
+@roles_accepted('admin')
+def cblock(id):
+    cus=Customer.query.get(id)
+    if cus:
+        cus.Verification="Verified-Blocked"
+        db.session.commit()
+        return{
+            "message":"succesfully Blocked"
+        }
+    else:
+        return{
+            "message":"Cannot Block"
+        }
+
+@app.route('/api/pblock/<int:id>') 
+@auth_required('token')
+@roles_accepted('admin')
+def pblock(id):
+    cus=Professional.query.get(id)
+    if cus:
+        cus.Verification="Verified-Blocked"
+        db.session.commit()
+        return{
+            "message":"succesfully Blocked"
+        }
+    else:
+        return{
+            "message":"Cannot Block"
+        }
+
+############################# un-Block profeesional and customer ####################
+@app.route('/api/cunblock/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def cunblock(id):
+    cus=Customer.query.get(id)
+    if cus:
+        cus.Verification="Verified"
+        db.session.commit()
+        return{
+            "message":"succesfully Restored"
+        }
+    else:
+        return{
+            "message":"Cannot restore"
+        }
+
+@app.route('/api/punblock/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def punblock(id):
+    cus=Professional.query.get(id)
+    if cus:
+        cus.Verification="Verified"
+        db.session.commit()
+        return{
+            "message":"succesfully Restored"
+        }
+    else:
+        return{
+            "message":"Cannot restore"
+        }
+
+################### Admin To contol The Service -Request ####################
+@app.route('/api/aclose/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def aclose(id):
+    cus=ServiceRequest.query.get(id)
+    if cus:
+        cus.status="Closed"
+        db.session.commit()
+        return{
+            "message":"succesfully Restored"
+        }
+    else:
+        return{
+            "message":"Cannot restore"
+        }
+
+@app.route('/api/adelete/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def adelete(id):
+    cus=ServiceRequest.query.get(id)
+    if cus:
+        db.session.delete(cus)
+        db.session.commit()
+        return{
+            "message":"succesfully Restored"
+        }
+    else:
+        return{
+            "message":"Cannot restore"
+        }
+
+@app.route('/api/acomplete/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def acomplete(id):
+    cus=ServiceRequest.query.get(id)
+    if cus:
+        cus.status="Completed"
+        db.session.commit()
+        return{
+            "message":"succesfully Restored"
+        }
+    else:
+        return{
+            "message":"Cannot restore"
+        }
+
+@app.route('/api/aupdate/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('admin')
+def aupdate(id):
+    body=request.get_json()
+    servicerequest=ServiceRequest.query.get(id)
+    servicerequest.Date_of_completion=body["time"]
+    db.session.commit()
+    return{
+        "message":"Updated Succesfully"
+    }
+
+################################################  professional and customer profile works ########################
+@app.route('/api/updateprof/<int:id>',methods=['POST']) 
+@auth_required('token')
+@roles_accepted('prof','user')
+def profete(id):
+    if 'prof' in roles_list(current_user.roles):
+        body=request.get_json()
+        ser=Professional.query.filter_by(user_id=id).all()
+        for t in ser:
+            t.description=body["description"]
+            t.Service_type=body["service_type"]
+            t.Experience=body["Experience"]
+            t.Founder=body["Founder"]
+            db.session.commit()
+            return {
+            "message":"Succesfully Updated"
+            }
+        return{
+            'message':'cannot update'
+        }
+    else:
+        body=request.get_json()
+        ser=Customer.query.filter_by(user_id=id).all()
+        for t in ser:
+            t.contact_no=body["contact_no"]
+            t.address=body["address"]
+            db.session.commit()
+            return {
+            "message":"Succesfully Updated"
+            }
+        return{
+            'message':'cannot update'
+        }
+
+@app.route('/api/profentryies')
+@auth_required('token')
+@roles_accepted('prof','user')
+def rot():
+    user=current_user
+    d=[{"id":user.id}]
+    return d

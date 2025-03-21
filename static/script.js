@@ -17,6 +17,22 @@ import complete from './components/complete.js'
 import close from './components/close.js'
 import cancel from './components/cancel.js'
 import timeupdate from './components/timeupdate.js'
+import verification from './components/verfication.js'
+import cverify from './components/cverify.js'
+import pverify from './components/pverify.js'
+import cblock from './components/cblock.js'
+import pblock from './components/pblock.js'
+import cunblock from './components/cunblock.js'
+import punblock from './components/punblock.js'
+import acomplete from './components/acomplete.js'
+import aclose from './components/aclose.js'
+import adelete from './components/adelete.js'
+import aupdate from './components/aupdate.js'
+import adminaccept from './components/adminaccept.js'
+import adminreject from './components/adminreject.js'
+import profprofile from './components/profprofile.js'
+import customerprof from './components/customerprof.js'
+
 
 
 const routes=[
@@ -36,6 +52,21 @@ const routes=[
     {path:'/cancel/:id',name:'cancel',component:cancel},
     {path:'/tupdates/:id',name:'tupdate',component:timeupdate},
     {path:'/update/:id',name:'update',component:update},
+    {path:'/cverify/:id',name:'verify',component:cverify},
+    {path:'/pverify/:id',name:'verify1',component:pverify},
+    {path:'/pblock/:id',name:'pblock',component:pblock},
+    {path:'/cblock/:id',name:'cblock',component:cblock},
+    {path:'/cunblock/:id',name:'cunblock',component:cunblock},
+    {path:'/punblock/:id',name:'punblock',component:punblock},
+    {path:'/acomplete/:id',name:'acomplete',component:acomplete},
+    {path:'/aclose/:id',name:'aclose',component:aclose},
+    {path:'/adelete/:id',name:'adelete',component:adelete},
+    {path:'/aupdate/:id',name:'aupdate',component:aupdate},
+    {path:'/adminaccept/:id',name:'adminaccept',component:adminaccept},
+    {path:'/adminreject/:id',name:'adminreject',component:adminreject},
+    {path:'/profprofile/:id',name:'pprofile',component:profprofile},
+    {path:'/crofprofile/:id',name:'cprofile',component:customerprof},
+    {path:'/verify',component:verification},
     {path:'/admin',component:admin}
 
 ]

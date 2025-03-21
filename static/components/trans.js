@@ -38,6 +38,6 @@ export default{
                             alert("Succesfull placed");
                             this.$router.push('/dashboard');
                     }
-                    )}
+                    )}  
                     }
                 }

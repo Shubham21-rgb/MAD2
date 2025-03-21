@@ -1,147 +1,144 @@
 <div>
     <n></n>
-        <h2 class="my-2">Welcome, {{userData.username}}!</h2>
+        <h2 class="my-2">Welcome, {{userData.username}} To Verification Page</h2>
             <div class="row border">
-                <div class="col-8 border" style="height: 750px; overflow-y: scroll">
-                    <h2>All Service_Request</h2>
-                    <p>Accepted Services</p>
-                        <div v-for="t in transactions" v-if="t.status=='Accepted'" class="card mt-2">
+                <div class="col-6 border" style="height: 750px; overflow-y: scroll">
+                    <h2>Customer-Verificaion</h2>
+                    <p>Not-Verified Services</p>
+                        <div v-for="t in transactions" v-if="t.Verification=='Not Verfied'" class="card mt-2">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                    <th scope="col">Unique ID</th>
                                     <th scope="col">Customer ID</th>
-                                    <th scope="col">Date of Request</th>
-                                    <th scope="col">Date of completion</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Service ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Contact No</th>
+                                    <th scope="col">Verification</th>
                                     <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <td>{{t.customer_id}}</td>
-                                    <td>{{t.Date_of_Request}}</td>
-                                    <td>{{t.Date_of_completion}}</td>
-                                    <td>{{t.amount}}</td>
-                                    <td>{{t.service_id}}</td>
+                                    <td>{{t.id}}</td>
+                                    <td>{{t.user_id}}</td>
+                                    <td>{{t.bearer.username}}</td>
+                                    <td>{{t.address}}</td>
+                                    <td>{{t.contact_no}}</td>
+                                    <td>{{t.Verification}}</td>
                                     <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Completed</button>
+                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
                                     </td>
                                 </tbody>
                             </table>
-                        </div>
-                    <p>Pending Services</p>
-                        <div v-for="t in transactions" v-if="t.status=='Pending'" class="card mt-2">
+                    </div>
+                    <p>Verified Services</p>
+                    <div v-for="t in transactions" v-if="t.Verification=='Verified'" class="card mt-2">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                    <th scope="col">Unique ID</th>
                                     <th scope="col">Customer ID</th>
-                                    <th scope="col">Date of Request Name</th>
-                                    <th scope="col">Date of completion</th>
-                                    <th scope="col">Service ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Contact No</th>
+                                    <th scope="col">Verification</th>
                                     <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <td>{{t.customer_id}}</td>
-                                    <td>{{t.Date_of_Request}}</td>
-                                    <td>{{t.Date_of_completion}}</td>
-                                    <td>{{t.service_id}}</td>
+                                    <td>{{t.id}}</td>
+                                    <td>{{t.user_id}}</td>
+                                    <td>{{t.bearer.username}}</td>
+                                    <td>{{t.address}}</td>
+                                    <td>{{t.contact_no}}</td>
+                                    <td>{{t.Verification}}</td>
                                     <td>
-                                        <button @click="accept" class="btn btn-info btn-sm">Accept</button>
-                                    </td>
-                                    <td>
-                                        <button @click="reject" class="btn btn-info btn-sm">Reject</button>
+                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
                                     </td>
                                 </tbody>
                              </table>
                         </div>
-                    <p>Completed Service</p>
-                        <div v-for="t in transactions" v-if="t.status=='Completed'" class="card mt-2">
+                        <p>Service Ratings</p>
+                    <div v-for="o in transaction2" class="card mt-2">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Date of Request Name</th>
-                                    <th scope="col">Date of completion</th>
-                                    <th scope="col">Service ID</th>
+                                    <th scope="col">Unique ID</th>
+                                    <th scope="col">Review</th>
+                                    <th scope="col">Remarks</th>
                                     <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <td>{{t.customer_id}}</td>
-                                    <td>{{t.Date_of_Request}}</td>
-                                    <td>{{t.Date_of_completion}}</td>
-                                    <td>{{t.service_id}}</td>
+                                    <td>{{o.id}}</td>
+                                    <td>{{o.review}}</td>
+                                    <td>{{o.remarks}}</td>
                                     <td>
-                                        <button @click="close" class="btn btn-info btn-sm">Close</button>
+                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
+                                    </td>
+                                    <td>
+                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
                                     </td>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
-                    <p>Closed Services</p>
-                        <div v-for="t in transactions" v-if="t.status=='Closed'" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Date of Request Name</th>
-                                    <th scope="col">Date of completion</th>
-                                    <th scope="col">Service ID</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{t.customer_id}}</td>
-                                    <td>{{t.Date_of_Request}}</td>
-                                    <td>{{t.Date_of_completion}}</td>
-                                    <td>{{t.service_id}}</td>
-                                    <td>
-                                        <button @click="del" class="btn btn-info btn-sm">Delete</button>
-                                    </td>
-                                </tbody>
-                            </table>
-                        </div>
+                    
                 </div>
-            <div class="col-4 border" style="height: 750px;">
-                <h3>Create Service</h3>
-                    <div class="mb-3">
-                        <label for="name" class="form-label"> Service-ID</label>
-                        <input type="text" class="form-control" id="id" v-model="transData.id">
+            <div class="col-6 border" style="height: 750px;">
+                <h2>Professional-Verificaion</h2>
+                    <p>Not-Verified Services</p>
+                        <div v-for="t in transaction" v-if="t.Verification=='Not Verfied'" class="card mt-2">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Unique ID</th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Experience</th>
+                                    <th scope="col">Verification</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>{{t.id}}</td>
+                                    <td>{{t.user_id}}</td>
+                                    <td>{{t.bearer.username}}</td>
+                                    <td>{{t.description}}</td>
+                                    <td>{{t.Experience}}</td>
+                                    <td>{{t.Verification}}</td>
+                                    <td>
+                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
+                                    </td>
+                                </tbody>
+                            </table>
                     </div>
-                <div class="mb-3">
-                    <label for="type" class="form-label"> Amount</label>
-                    <input type="text" class="form-control" id="amount" v-model="transData.amount">
-                </div>
-                <div class="mb-3">
-                    <label for="source" class="form-label"> Service Type</label>
-                    <select class="form-select" aria-label="Default select example" v-model="transData.service_name">
-                        <option selected>Open this select menu</option>
-                        <option value="Household Cleaning">Household Cleaning</option>
-                        <option value="Household Sanitary">Household Sanitary</option>
-                        <option value="Household Electricals">Household Electricals</option>
-                        <option value="Household Security">Household Security</option>
-                        <option value="Household Garderning">Household Garderning</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="destination" class="form-label">Time Required</label>
-                    <input type="text" class="form-control" id="time" v-model="transData.Time_required">
-                </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" v-model="transData.Description">
+                    <p>Verified Services</p>
+                    <div v-for="t in transaction" v-if="t.Verification=='Verified'" class="card mt-2">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Unique ID</th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Experience No</th>
+                                    <th scope="col">Verification</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>{{t.id}}</td>
+                                    <td>{{t.user_id}}</td>
+                                    <td>{{t.bearer.username}}</td>
+                                    <td>{{t.address}}</td>
+                                    <td>{{t.contact_no}}</td>
+                                    <td>{{t.Verification}}</td>
+                                    <td>
+                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
+                                    </td>
+                                </tbody>
+                             </table>
+                    </div>
             </div>
-            <div class="mb-3">
-                    <label for="source" class="form-label"> Professional </label>
-                    <select class="form-select" aria-label="Default select example" v-model="transData.prof_id">
-                        <option selected>Open this select menu</option>
-                        <option v-for="p in profess" :value="p.id">{{p.email}}</option>
-                    </select>
-            </div>
-            <div class="mb-3 text-end">
-                <button @click="createTrans" class="btn btn-primary">Create+</button>
-            </div>
-            <div>{{message}}</div>
-            </div>
-        </div>
     </div>
