@@ -582,3 +582,92 @@ def rot():
     user=current_user
     d=[{"id":user.id}]
     return d
+
+######################### UPDATE/DELETE OF Service By Admin #########################
+@app.route('/api/adminser',methods=['POST'])
+@auth_required('token')
+@roles_accepted('admin')
+def adminser():
+    prof=Service.query.all()
+    tran=[]
+    for role in prof:
+        profess={}
+        profess["id"]=role.id
+        profess["Service_name"]=role.Service_name
+        profess["Time_required"]=role.Time_required
+        profess["Description"]=role.Description
+        profess["prof_id"]=role.prof_id
+        profess["amount"]=role.amount
+        tran.append(profess)
+    if tran:
+        return tran
+    return{
+        "message":"Unable to get"
+    }
+############################## Admin/Professional to create Service ##########################
+@app.route('/api/adcreate',methods=['POST'])
+@auth_required('token')
+@roles_accepted('admin','prof')
+def createserwer():
+    if 'prof' in roles_list(current_user.roles):
+            body=request.get_json()
+            try:
+                Service_create=Service(id=body['id'],
+                                    Service_name=body['service_name'],
+                                    Time_required=body['Time_required'],
+                                    Description=body['Description'],
+                                    amount=body['amount'],
+                                    prof_id=current_user.id
+                                    )
+                db.session.add(Service_create)
+                db.session.commit()
+                return{
+                    "message":"Service Created Succesfully Generated"
+                } 
+            except:
+                return{
+                "message":"Service feilds are missiing"
+                }
+    elif 'admin' in roles_list(current_user.roles):
+        body=request.get_json()
+        try:
+            Service_create=Service(id=body['id'],
+                                    Service_name=body['service_name'],
+                                    Time_required=body['Time_required'],
+                                    Description=body['Description'],
+                                    amount=body['amount'],
+                                    prof_id=body['prof_id']
+                                    )
+            db.session.add(Service_create)
+            db.session.commit()
+            return{
+                    "message":"Service Created Succesfully Generated"
+                } 
+        except:
+            return{
+                "message":"Service feilds are missiing or exsists"
+                }
+
+############################### Customer Ratings #################################
+@app.route('/api/cusrate/<int:ids>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('user')
+def cusserrate(ids):
+    body=request.get_json()
+    ser = ServiceRequest.query.get(ids)
+    try:
+        d=ser.id
+        s2=Ratings(id=d,
+                    review=body['review'],
+                    remarks='to_be_updated_by_the_company'
+
+        )
+        db.session.add(s2)
+        db.session.commit()
+        return{
+                "message":"Rating Created Succesfully Generated"
+            } 
+    except:
+        return{
+            "message":"Rating feilds are missiing or exsists"
+            }

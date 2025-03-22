@@ -8,6 +8,9 @@ export default {
     <n></n>
         <h2 class="my-2">Welcome, {{userData.username}}!</h2>
         <div class="row border">
+            <div class="text-end"><router-link to="/adminupdate" class="btn btn-warning">Modify-Service</router-link></div>
+        </div>
+        <div class="row border">
             <div class="text-end"><button @click="csvd" class="btn btn-info btn-sm">Download CSV</button></div>
         </div>
             <div class="row border">
@@ -254,7 +257,7 @@ export default {
             })
         },
         createTrans(){
-            fetch('/api/create',{
+            fetch('/api/adcreate',{
                 method:'POST',
                 headers:{
                     "Content-Type":"application/json",

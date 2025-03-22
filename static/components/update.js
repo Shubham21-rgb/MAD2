@@ -1,6 +1,9 @@
 export default{
     template:`
-            <div>
+    <div class="container mt-5">
+        <h1 align="center">Update Your Own Service</h1>
+        <div class="d-flex justify-content-center align-items-center vh-80">
+            <div class="alert alert-primary" role="alert" style="width: 800px; height: 700px; padding: 20px; font-size: 18px;">
             <br><br>
                 <p>Update Your own Service------------->> Your id-{{id}}</p>
                 <div class="mb-3">
@@ -27,6 +30,9 @@ export default{
                     <input type="text" class="form-control" id="amount" v-model="date.amount">
                 </div>
                 <button class="btn btn-success" @click="save">Save+</button>
+                <router-link to="/pdashboard" class="btn btn-warning">Back</router-link>
+            </div>
+            </div>
             </div>
         `,
                 data:function(){

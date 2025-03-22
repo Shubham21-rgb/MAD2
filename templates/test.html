@@ -1,144 +1,34 @@
-<div>
-    <n></n>
-        <h2 class="my-2">Welcome, {{userData.username}} To Verification Page</h2>
-            <div class="row border">
-                <div class="col-6 border" style="height: 750px; overflow-y: scroll">
-                    <h2>Customer-Verificaion</h2>
-                    <p>Not-Verified Services</p>
-                        <div v-for="t in transactions" v-if="t.Verification=='Not Verfied'" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Unique ID</th>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Verification</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{t.id}}</td>
-                                    <td>{{t.user_id}}</td>
-                                    <td>{{t.bearer.username}}</td>
-                                    <td>{{t.address}}</td>
-                                    <td>{{t.contact_no}}</td>
-                                    <td>{{t.Verification}}</td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
-                                    </td>
-                                </tbody>
-                            </table>
-                    </div>
-                    <p>Verified Services</p>
-                    <div v-for="t in transactions" v-if="t.Verification=='Verified'" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Unique ID</th>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Contact No</th>
-                                    <th scope="col">Verification</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{t.id}}</td>
-                                    <td>{{t.user_id}}</td>
-                                    <td>{{t.bearer.username}}</td>
-                                    <td>{{t.address}}</td>
-                                    <td>{{t.contact_no}}</td>
-                                    <td>{{t.Verification}}</td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
-                                    </td>
-                                </tbody>
-                             </table>
-                        </div>
-                        <p>Service Ratings</p>
-                    <div v-for="o in transaction2" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Unique ID</th>
-                                    <th scope="col">Review</th>
-                                    <th scope="col">Remarks</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{o.id}}</td>
-                                    <td>{{o.review}}</td>
-                                    <td>{{o.remarks}}</td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
-                                    </td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
-                                    </td>
-                                </tbody>
-                             </table>
-                        </div>
-                    
-                </div>
-            <div class="col-6 border" style="height: 750px;">
-                <h2>Professional-Verificaion</h2>
-                    <p>Not-Verified Services</p>
-                        <div v-for="t in transaction" v-if="t.Verification=='Not Verfied'" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Unique ID</th>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Experience</th>
-                                    <th scope="col">Verification</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{t.id}}</td>
-                                    <td>{{t.user_id}}</td>
-                                    <td>{{t.bearer.username}}</td>
-                                    <td>{{t.description}}</td>
-                                    <td>{{t.Experience}}</td>
-                                    <td>{{t.Verification}}</td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
-                                    </td>
-                                </tbody>
-                            </table>
-                    </div>
-                    <p>Verified Services</p>
-                    <div v-for="t in transaction" v-if="t.Verification=='Verified'" class="card mt-2">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Unique ID</th>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Experience No</th>
-                                    <th scope="col">Verification</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{t.id}}</td>
-                                    <td>{{t.user_id}}</td>
-                                    <td>{{t.bearer.username}}</td>
-                                    <td>{{t.address}}</td>
-                                    <td>{{t.contact_no}}</td>
-                                    <td>{{t.Verification}}</td>
-                                    <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Block</button>
-                                    </td>
-                                </tbody>
-                             </table>
-                    </div>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Message Box</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center vh-50">
+        <div class="alert alert-primary" role="alert" style="width: 600px; height: 150px; padding: 20px; font-size: 18px;">
+            This is a simple primary message box!
+        </div>
+        </div>
+        <div class="alert alert-success" role="alert">
+            Success! Your operation was completed.
+        </div>
+        <div class="alert alert-danger" role="alert">
+            Error! Something went wrong.
+        </div>
+        <div class="alert alert-warning" role="alert">
+            Warning! Please check your input.
+        </div>
+        <div class="alert alert-info" role="alert">
+            Info! This is an informational message.
+        </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

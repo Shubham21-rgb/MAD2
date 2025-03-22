@@ -1,17 +1,18 @@
 export default{
     template:`
     <div class="row border">
-        <div class="col-9 border fs-1" >
-        HOUSE-HOLD SERVICES BY UNITY 
+    <div class="col-9 border fs-1">
+        HOUSE-HOLD SERVICES BY UNITY
+    </div>
+    <div class="col-3 border d-flex align-items-center justify-content-between">
+        <router-link class="btn btn-primary" to="/login">Summary</router-link>
+        <div v-for="t in sot" class="d-inline">
+            <router-link class="btn btn-primary" :to="{name:'cprofile',params:{id: t.id}}">Profile</router-link>
         </div>
-        <div class="col-3 border" >
-        <router-link class="btn btn-primary my-2" to="/login">Summary</router-link>
-        <div v-for="t in sot">
-            <router-link class="btn btn-primary my-2"  :to="{name:'cprofile',params:{id: t.id}}">Profile</router-link>
-        </div>
-        <router-link class="btn btn-primary my-2" to="/login">Logout</router-link>
-        </div>
-    </div>`,
+        <router-link class="btn btn-primary" to="/login">Search</router-link>
+        <router-link class="btn btn-primary" to="/login">Logout</router-link>
+    </div>
+</div>`,
     data:function(){
         return{
             ser:null,

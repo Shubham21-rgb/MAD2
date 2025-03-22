@@ -32,6 +32,10 @@ import adminaccept from './components/adminaccept.js'
 import adminreject from './components/adminreject.js'
 import profprofile from './components/profprofile.js'
 import customerprof from './components/customerprof.js'
+import admindelserv from './components/admindelserv.js'
+import adminserviceupdate from './components/adminserviceupdate.js'
+import admindelservices from './components/admindelservices.js'
+import rate from './components/rate.js'
 
 
 
@@ -66,8 +70,12 @@ const routes=[
     {path:'/adminreject/:id',name:'adminreject',component:adminreject},
     {path:'/profprofile/:id',name:'pprofile',component:profprofile},
     {path:'/crofprofile/:id',name:'cprofile',component:customerprof},
+    {path:'/adminserviceupdate/:id',name:'adminserv',component:adminserviceupdate},
+    {path:'/adminservicedelete/:id',name:'admindelservice',component:admindelservices},
+    {path:'/rate/:id',name:'cusrate',component:rate},
     {path:'/verify',component:verification},
-    {path:'/admin',component:admin}
+    {path:'/admin',component:admin},
+    {path:'/adminupdate',component:admindelserv}
 
 ]
 const router=new VueRouter({

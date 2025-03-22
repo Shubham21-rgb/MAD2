@@ -1,14 +1,20 @@
 export default{
     template:`
-            <div>
+    <div class="container mt-5">
+        <h1 align="center">Update- Date of Completion</h1>
+            <div class="d-flex justify-content-center align-items-center vh-80">
+                <div class="alert alert-primary" role="alert" style="width: 800px; height: 500px; padding: 20px; font-size: 18px;">
                 <p>Please Provide the Given Date to Updatefor id-{{id}}</p>
-                <p>Date of Request:{{value}}<p>
+                <p>Date of Request:{{Request_date}}<p>
                 <div class="mb-3">
                     <label for="type" class="form-label"> Date</label>
                     <input type="text" class="form-control" id="amount" v-model="date.time">
                 </div>
                 <button class="btn btn-success" @click="save">Procced</button>
+                <router-link to="/pdashboard" class="btn btn-warning">Back</router-link>
             </div>
+        </div>
+    </div>
         `,
                 data:function(){
                     return{
@@ -19,11 +25,6 @@ export default{
                         date: {
                             time:''
                         }
-                    }
-                },
-                computed:{
-                    value(){
-                        return this.Request_date.substring(0,10)
                     }
                 },
                 mounted(){

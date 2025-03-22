@@ -63,17 +63,18 @@ class TransApi(Resource):
     @roles_accepted('user')
     def post(self,trans_id):
         if 'user' in roles_list(current_user.roles):
-            parser.add_argument('id',type=str,required=True)
+            parser.add_argument('amount', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
             parser.add_argument('amount', type=str, required=True)
             args= parser.parse_args()
             try:
-                servreq=ServiceRequest( 
-                                        customer_id=current_user.id,
+                servreq=ServiceRequest(customer_id=current_user.id,
                                         Date_of_Request=datetime.datetime.now(),
                                         Date_of_completion="to_be_updated",
                                         amount=args['amount'],
                                         status="Pending",
-                                        service_id=args["id"])
+                                        service_id=trans_id)
                 db.session.add(servreq)
                 db.session.commit()
                 return{   
@@ -98,49 +99,38 @@ class TransApi(Resource):
             args= parser.parse_args()
         
             for i in service_request.request:
-                print(i.service_id)
-            strans=Service.query.filter_by(id=i.service_id).first()
-            trans=ServiceRequest.query.filter_by(service_id=trans_id).first()
-            strans.amount=args['amount']
-            strans.Service_name=args['Service_name']
-            strans.Time_required=args['Time_required']
-            strans.Description=args['Description']
-            trans.amount=args['amount']
-            db.session.commit()
-            return{
-                    "message":"Updated Sucessfully"
-            }
-            #except :
-                #return{
-                 #   "message":"Cannot Update"
-                #},400 
-        else:
-            try:
-                parser.add_argument('amount', type=str, required=True)
-                parser.add_argument('amount', type=str, required=True)
-                parser.add_argument('service_name', type=str, required=True)
-                parser.add_argument('Time_required', type=str, required=True)
-                parser.add_argument('description', type=str, required=True)
-                service_request = ServiceRequest.query.get(trans_id).first()
-                args= parser.parse_args()
-        
-                for i in service_request.service:
-                    continue
                 strans=Service.query.filter_by(id=i.service_id).first()
-                trans=ServiceRequest.query.filter_by(id=trans_id).first()
+                trans=ServiceRequest.query.filter_by(service_id=trans_id).filter_by(customer_id=i.customer_id).all()
                 strans.amount=args['amount']
                 strans.Service_name=args['Service_name']
                 strans.Time_required=args['Time_required']
                 strans.Description=args['Description']
-                trans.amount=args['amount']
+                trans[0].amount=args['amount']
                 db.session.commit()
-                return{
+            return{
                     "message":"Updated Sucessfully"
-                }
-            except :
-                return{
-                    "message":"Cannot Update"
-                },400 
+            }
+        elif 'admin' in roles_list(current_user.roles):
+            parser.add_argument('amount', type=str, required=True)
+            parser.add_argument('amount', type=str, required=True)
+            parser.add_argument('Service_name', type=str, required=True)
+            parser.add_argument('Time_required', type=str, required=True)
+            parser.add_argument('Description', type=str, required=True)
+            service_request = Service.query.filter_by(prof_id=trans_id).first()
+            args= parser.parse_args()
+        
+            for i in service_request.request:
+                strans=Service.query.filter_by(id=i.service_id).first()
+                trans=ServiceRequest.query.filter_by(service_id=i.service_id).filter_by(customer_id=i.customer_id).all()
+                strans.amount=args['amount']
+                strans.Service_name=args['Service_name']
+                strans.Time_required=args['Time_required']
+                strans.Description=args['Description']
+                trans[0].amount=args['amount']
+                db.session.commit()
+            return{
+                    "message":"Updated Sucessfully"
+            } 
 
     @auth_required('token')
     @roles_accepted('user','prof','admin')
@@ -159,62 +149,22 @@ class TransApi(Resource):
                 },400
         elif "user" in roles_list(current_user.roles):
             t=ServiceRequest.query.get(trans_id)
+        else:
+            service_request = Service.query.filter_by(prof_id=trans_id).first()
 
-class newapi(Resource):
-    @auth_required('token')
-    @roles_accepted('admin','prof')
-    def post(self):
-        if 'prof' in roles_list(current_user.roles):
-            parser.add_argument('id', type=str, required=True)
-            parser.add_argument('service_name', type=str, required=True, help='Name cannot be blank')
-            parser.add_argument('Time_required', type=str, required=True, help='Customer-id cannot be blank')
-            parser.add_argument('Description', type=str, required=True)
-            parser.add_argument('amount', type=str, required=True)
-            args= parser.parse_args()
-            try:
-                Service_create=Service(id=args['id'],
-                                    Service_name=args['service_name'],
-                                    Time_required=args['Time_required'],
-                                    Description=args['Description'],
-                                    amount=args['amount'],
-                                    prof_id=current_user.id
-                                    )
-                db.session.add(Service_create)
-                db.session.commit()
-                return{
-                    "message":"Service Created Succesfully Generated"
-                } 
-            except:
-                return{
-                "message":"Service feilds are missiing"
-                }
-        elif 'admin'in roles_list(current_user.roles):
-            parser.add_argument('id', type=str, required=True)
-            parser.add_argument('service_name', type=str, required=True, help='Name cannot be blank')
-            parser.add_argument('Time_required', type=str, required=True, help='Customer-id cannot be blank')
-            parser.add_argument('Description', type=str, required=True)
-            parser.add_argument('amount', type=str, required=True)
-            parser.add_argument('prof_id', type=str, required=True)
-            args= parser.parse_args()
-            try:
-                Service_create=Service(id=args['id'],
-                                    Service_name=args['service_name'],
-                                    Time_required=args['Time_required'],
-                                    Description=args['Description'],
-                                    amount=args['amount'],
-                                    prof_id=args['prof_id']
-                                    )
-                db.session.add(Service_create)
-                db.session.commit()
-                return{
-                    "message":"Service Created Succesfully Generated"
-                } 
-            except:
-                return{
-                "message":"Service feilds are missiing or exsists"
-                }
+            for i in service_request.request:
+                trans=ServiceRequest.query.filter_by(service_id=i.service_id).all()
+                for iu in trans:
+                    db.session.delete(iu)
+
+            db.session.delete(service_request)
+            db.session.commit()
+            return{
+                "message":"Service deleted Succesfully"
+            }
+
 
 
     
 api.add_resource(TransApi,'/api/get','/api/create/<int:trans_id>','/api/update/<int:trans_id>','/api/delete/<int:trans_id>')
-api.add_resource(newapi,'/api/create')
+

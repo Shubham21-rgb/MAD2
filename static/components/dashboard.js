@@ -12,58 +12,58 @@ export default{
             <h2>Services Available</h2>
             <div v-for="t in service" class="card">
                 <div v-if="t.Service_name == 'Household Cleaning'">
-                    <p>{{t.Service_name}}</p>
+                    <p><mark>{{t.Service_name}}</mark></p>
                     <div class="card-body">
                         <h5 class="card-title">Service</h5>
                         <p class="card-text">ID: {{t.id}}</p>
                         <p class="card-text">Time Required: {{t.Time_required}}</p>
                         <p class="card-text">About: {{t.Description}}</p>
                         <p class="card-text">Amount: {{t.amount}} </p>
-                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount}}" class="btn btn-warning">Select</router-link>
+                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount,service_name:t.Service_name}}" class="btn btn-success">Select</router-link>
                     </div>
                 </div>
                 <div v-if="t.Service_name == 'Household Electricals'">
-                    <p>{{t.Service_name}}</p>
+                    <p><mark>{{t.Service_name}}</mark></p>
                     <div class="card-body">
                         <h5 class="card-title">Service</h5>
                         <p class="card-text">ID: {{t.id}}</p>
                         <p class="card-text">Time Required: {{t.Time_required}}</p>
                         <p class="card-text">About: {{t.Description}}</p>
                         <p class="card-text">Amount: {{t.amount}} </p>
-                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount}}" class="btn btn-warning">Select</router-link>
+                        <router-link :to="{name:'show',params:{id: t.id,amount: t.amount,service_name:t.Service_name}}" class="btn btn-success">Select</router-link>
                     </div>
                 </div>
                 <div v-if="t.Service_name == 'Household Sanitary'">
-                    <p>{{t.Service_name}}</p>
+                    <p><mark>{{t.Service_name}}</mark></p>
                     <div class="card-body">
                         <h5 class="card-title">Service</h5>
                         <p class="card-text">ID: {{t.id}}</p>
                         <p class="card-text">Time Required: {{t.Time_required}}</p>
                         <p class="card-text">About: {{t.Description}}</p>
                         <p class="card-text">Amount: {{t.amount}} </p>
-                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount,service_name:t.Service_name}}" class="btn btn-success">Select</router-link>
                     </div>
                 </div>
                 <div v-if="t.Service_name == 'Household Security'">
-                    <p>{{t.Service_name}}</p>
+                    <p><mark>{{t.Service_name}}</mark></p>
                     <div class="card-body">
                         <h5 class="card-title">Service</h5>
                         <p class="card-text">ID: {{t.id}}</p>
                         <p class="card-text">Time Required: {{t.Time_required}}</p>
                         <p class="card-text">About: {{t.Description}}</p>
                         <p class="card-text">Amount: {{t.amount}} </p>
-                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount,service_name:t.Service_name}}" class="btn btn-success">Select</router-link>
                     </div>
                 </div>
                 <div v-if="t.Service_name == 'Household Garderning'">
-                    <p>{{t.Service_name}}</p>
+                    <p><mark>{{t.Service_name}}</mark></p>
                     <div class="card-body">
                         <h5 class="card-title">Service</h5>
                         <p class="card-text">ID: {{t.id}}</p>
                         <p class="card-text">Time Required: {{t.Time_required}}</p>
                         <p class="card-text">About: {{t.Description}}</p>
                         <p class="card-text">Amount: {{t.amount}} </p>
-                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount}}" class="btn btn-warning">Select</router-link>
+                        <router-link :to="{name:'show',params:{id:t.id,amount:t.amount,service_name:t.Service_name}}" class="btn btn-success">Select</router-link>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@ export default{
     <h4>Service History</h4>
         <p>Accepted Services</p>
         <div v-for="t in transactions" v-if="t.status=='Accepted'" class="card mt-2">
-            <table class="table table-striped">
+            <table class="table table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Customer ID</th>
@@ -97,7 +97,7 @@ export default{
         </div>
         <p>Completed Services</p>
         <div v-for="t in transactions" v-if="t.status=='Completed'" class="card mt-2">
-            <table class="table table-striped">
+            <table class="table table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Customer ID</th>
@@ -113,14 +113,14 @@ export default{
                         <td>{{t.amount}}</td>
                         <td>{{t.service_id}}</td>
                         <td>
-                            <button @click="rate" class="btn btn-primary">Rate</button>
+                            <router-link :to="{name:'cusrate',params:{id: t.id}}" class="btn btn-warning">Rate</router-link>
                         </td>
                     </tbody>
                 </table>
             </div>
             <p>Pending Services</p>
             <div v-for="t in transactions" v-if="t.status=='Pending'" class="card mt-2">
-                <table class="table table-striped">
+                <table class="table table-sm">
                     <thead>
                         <tr>
                             <th scope="col">Customer ID</th>
@@ -145,7 +145,7 @@ export default{
             </div>
             <p>Closed Services</p>
             <div v-for="t in transactions" v-if="t.status=='Closed'" class="card mt-2">
-                <table class="table table-striped">
+                <table class="table table-sm">
                     <thead>
                         <tr>
                             <th scope="col">Customer ID</th>
@@ -166,7 +166,7 @@ export default{
             </div>
             <p>Rejected Services</p>
             <div v-for="t in transactions" v-if="t.status=='Rejected'" class="card mt-2">
-                <table class="table table-striped">
+                <table class="table table-sm">
                     <thead>
                         <tr>
                             <th scope="col">Customer ID</th>

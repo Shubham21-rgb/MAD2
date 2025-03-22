@@ -1,15 +1,21 @@
 export default{
     template:`
-            <div>
-            <h4>admin Management</h4>
+    <div class="container mt-5">
+        <h1 align="center">Waiting for Confirmation</h1>
+        <div class="d-flex justify-content-center align-items-center vh-80">
+            <div class="alert alert-primary" role="alert" style="width: 800px; height: 200px; padding: 20px; font-size: 18px;">
+            <h4>Admin Management</h4>
                 <p>Are you sure you want Change the status of service</p>
                 <p>Changing Status {{status}} to Closed for id-{{id}}</p>
                 <button class="btn btn-success" @click="save">Procced</button>
+                <router-link to="/admin" class="btn btn-warning">Back</router-link>
             </div>
+        </div>
+    <div>
         `,
                 data:function(){
                     return{
-                        id:null,
+                        id:null,  
                         status:null,
                         message:""
                     }

@@ -1,7 +1,10 @@
 export default{
     template:`
-            <div>
-            <br><br>
+    <div class="container mt-5">
+        <h1 align="center">Update Customer Profile</h1>
+            <div class="d-flex justify-content-center align-items-center vh-80">
+                <div class="alert alert-primary" role="alert" style="width: 800px; height: 600px; padding: 20px; font-size: 18px;">
+                    <br><br>
                 <p>Update Your own profile ------------->> Customer id-{{id}}</p>
                 <div class="mb-3">
                     <label for="type" class="form-label"> Contact-no</label>
@@ -12,7 +15,10 @@ export default{
                     <input type="text" class="form-control" id="amount" v-model="date.address">
                 </div>
                 <button class="btn btn-success" @click="save">Save+</button>
+                <router-link to="/dashboard" class="btn btn-warning">Back</router-link>
             </div>
+        </div>
+    <div>
         `,
                 data:function(){
                     return{
