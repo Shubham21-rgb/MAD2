@@ -9,7 +9,9 @@ export default{
         <div v-for="t in ser">
             <router-link class="btn btn-primary my-2"  :to="{name:'update',params:{id: t.ids}}">Update-Service</router-link>
         </div>
-        <router-link class="btn btn-primary my-2" to="/">Create Service</router-link>
+        <div v-for="t in sot">
+            <router-link class="btn btn-primary my-2" :to="{name:'professionalsercreate',params:{id: t.id}}">Create Service</router-link>
+        </div>
         <div v-for="t in sot">
             <router-link class="btn btn-primary my-2"  :to="{name:'pprofile',params:{id: t.id}}">Profile</router-link>
         </div>
@@ -30,12 +32,7 @@ export default{
     methods:{
         loadsers(){
             fetch('/api/entry',{
-                method:'POST',
-                headers:{
-                    "Content-Type":'application/json',
-                    "Authentication-Token":localStorage.getItem("auth_token")
-
-                }
+                method:'POST'
             }).then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -56,6 +53,5 @@ export default{
                 console.log(data)
             })
         }
-
     }
 }

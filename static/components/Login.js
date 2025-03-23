@@ -7,7 +7,7 @@ export default{
     template:`
     <div class="row border">
     <n></n>
-        <div class="col" style="height: 750px; width:600px;" >
+        <div class="col" style="height: 750px; width:600px;" >  
             <div class="border mx-auto mt-5" style="height: 600px; width: 500px;">
                 Login-Area
                 <div>

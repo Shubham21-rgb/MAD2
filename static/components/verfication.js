@@ -108,7 +108,7 @@
                                     <td>{{t.review}}</td>
                                     <td>{{t.remarks}}</td>
                                     <td>
-                                        <button @click="compl" class="btn btn-info btn-sm">Review</button>
+                                        <router-link :to="{name:'adminrate',params:{id: t.id}}" class="btn btn-warning">Review</router-link>
                                     </td>
                                 </tbody>
                              </table>

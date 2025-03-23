@@ -24,7 +24,7 @@ class TransApi(Resource):
             service_request = Service.query.filter_by(prof_id=current_user.id).all()
             for i in service_request[0].request:
                 #print(i.service_id)
-                trans_j=[]
+                trans_json=[]
 
                 transactions=ServiceRequest.query.filter_by(service_id=i.service_id)
                 for transaction in transactions:
@@ -37,8 +37,8 @@ class TransApi(Resource):
                     "status": transaction.status,
                     "service_id": transaction.service_id
                         }
-                    trans_j.append(this_trans)
-            return jsonify(trans_j)
+                    trans_json.append(this_trans)
+            return jsonify(trans_json)
 
         
 

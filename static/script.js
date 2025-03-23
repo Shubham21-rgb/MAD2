@@ -36,6 +36,8 @@ import admindelserv from './components/admindelserv.js'
 import adminserviceupdate from './components/adminserviceupdate.js'
 import admindelservices from './components/admindelservices.js'
 import rate from './components/rate.js'
+import ratemanagement from './components/ratemanagement.js'
+import professionalserviceadd from './components/professionalserviceadd.js'
 
 
 
@@ -72,8 +74,10 @@ const routes=[
     {path:'/crofprofile/:id',name:'cprofile',component:customerprof},
     {path:'/adminserviceupdate/:id',name:'adminserv',component:adminserviceupdate},
     {path:'/adminservicedelete/:id',name:'admindelservice',component:admindelservices},
+    {path:'/professionalservcreate/:id',name:'professionalsercreate',component:professionalserviceadd},
     {path:'/rate/:id',name:'cusrate',component:rate},
     {path:'/verify',component:verification},
+    {path:'/adminratemanage/:id',name:'adminrate',component:ratemanagement},
     {path:'/admin',component:admin},
     {path:'/adminupdate',component:admindelserv}
 

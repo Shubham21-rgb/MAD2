@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash,generate_password_hash
 from .resources import roles_list
 from .models import *
 from celery.result import AsyncResult
-from .task import csv_report
+from .task import csv_report,monthly_report
 
 @app.route('/',methods=['GET'])
 def home():
@@ -285,8 +285,6 @@ def log20(id):
 
 #To get professional Service
 @app.route('/api/entry',methods=['POST'])
-@auth_required('token')
-@roles_accepted('prof')
 def log19():
     user=current_user
     prof=Service.query.filter_by(prof_id=user.id)
@@ -671,3 +669,35 @@ def cusserrate(ids):
         return{
             "message":"Rating feilds are missiing or exsists"
             }
+
+#################################### Admin Ratings Management ###############
+@app.route('/api/rateadmin/<int:ids>',methods=['POST'])
+@auth_required('token')
+@roles_accepted('admin')
+def rateadmin123(ids):
+    body=request.get_json()
+    ser=Ratings.query.get(ids)
+    ser.remarks=body['remark']
+    db.session.commit()
+    return{
+        "message":"Succesfulley responded"
+    }
+
+######################### 
+@app.route('/api/mail')
+def send_reports():
+    res = monthly_report.delay()
+    return {
+        "result": res.result
+    }
+##########Testing Routes#########
+@app.route('/api/test')
+def test():
+    users = User.query.all()
+    er=[]
+    for i in users:
+        dat={}
+        if 'user' in i.roles:
+            dat['username']=i.username
+            er.append(dat)
+    return er

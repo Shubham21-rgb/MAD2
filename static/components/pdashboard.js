@@ -3,7 +3,7 @@ export default{
     components:{
         'n':profnav
     },
-    template:`
+    template:`  
     <div>
     <n></n>
     <h2>Welcome {{userData.username}} Professional</h2>
