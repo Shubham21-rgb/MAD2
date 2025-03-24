@@ -64,9 +64,6 @@ class TransApi(Resource):
     def post(self,trans_id):
         if 'user' in roles_list(current_user.roles):
             parser.add_argument('amount', type=str, required=True)
-            parser.add_argument('amount', type=str, required=True)
-            parser.add_argument('amount', type=str, required=True)
-            parser.add_argument('amount', type=str, required=True)
             args= parser.parse_args()
             try:
                 servreq=ServiceRequest(customer_id=current_user.id,

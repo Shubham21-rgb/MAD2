@@ -22,6 +22,7 @@ export default{
     </div>
     <div>{{message}}</div>
     <div>
+    <br><br>
         <button class="btn btn-primary" @click="loginUser">Login</button>
     </div>
 </div>

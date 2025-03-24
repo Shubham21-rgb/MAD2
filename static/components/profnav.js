@@ -5,7 +5,6 @@ export default{
         HOUSE-HOLD SERVICES BY UNITY 
         </div>
         <div class="col-3 border" >
-        <router-link class="btn btn-primary my-2" to="/login">Summary</router-link>
         <div v-for="t in ser">
             <router-link class="btn btn-primary my-2"  :to="{name:'update',params:{id: t.ids}}">Update-Service</router-link>
         </div>
