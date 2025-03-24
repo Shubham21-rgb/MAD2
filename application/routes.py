@@ -7,6 +7,9 @@ from .models import *
 from celery.result import AsyncResult
 from .task import csv_report,monthly_report
 from sqlalchemy import cast,Float
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 @app.route('/',methods=['GET'])
 def home():
@@ -726,3 +729,106 @@ def adminsearchin():
         return{
             "message":"No Data"
         }
+
+######################### Admin And User Summary ##################
+@app.route('/api/persummary')
+@auth_required('token')
+@roles_accepted('admin','user')
+def adminsummary():
+    if 'admin' in roles_list(current_user.roles):
+        sql1=ServiceRequest.query.all()
+        c=0
+        for j in sql1:
+            if 'Closed' in j.status:
+                c=c+1
+        d=0
+        for j in sql1:
+            if 'Rejected' in j.status:
+                d=d+1
+        e=0
+        for j in sql1:
+            if 'Accepted' in j.status:
+                e=e+1
+        f=0
+        for j in sql1:
+            if 'Pending' in j.status:
+                f=f+1
+        g=0
+        for j in sql1:
+            if 'Completed' in j.status:
+                g=g+1
+        mv=c+d+e+f+g
+        ac=(c/mv)*100    
+        ad=(d/mv)*100
+        ae=(e/mv)*100    
+        af=(f/mv)*100    
+        ag=(g/mv)*100
+        labels = ['Closed Services', 'Pending Services', 'Accepted Services', 'Completed Services','Rejected Services']
+        sizes = [ac,af,ae,ag,ad]
+        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue','red']
+        explode = (0, 0.1, 0, 0,0)  
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+        ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
+        plt.title('Summary')
+        image_path = 'static/pie_chart1.png'
+        plt.savefig(image_path)
+        plt.close()
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.bar(labels,sizes, color='skyblue')
+        ax.set_xlabel('labels',fontsize=14)
+        ax.set_ylabel('size',fontsize=14)
+        ax.set_title('Services_Records',fontsize=18)
+        image_path1 = 'static/bar_chart1.png'
+        plt.savefig(image_path1)
+        plt.close()
+        return {"image_path":image_path,"image_path1":image_path1}
+    elif 'user' in roles_list(current_user.roles):
+        id=current_user.id
+        sql1=ServiceRequest.query.filter_by(customer_id=id).all()
+        c=0
+        for j in sql1:
+            if 'Closed' in j.status:
+                c=c+1
+        d=0
+        for j in sql1:
+            if 'Rejected' in j.status:
+                d=d+1
+        e=0
+        for j in sql1:
+            if 'Accepted' in j.status:
+                e=e+1
+        f=0
+        for j in sql1:
+            if 'Pending' in j.status:
+                f=f+1
+        g=0
+        for j in sql1:
+            if 'Completed' in j.status:
+                g=g+1
+        mv=c+d+e+f+g
+        ac=(c/mv)*100    
+        ad=(d/mv)*100
+        ae=(e/mv)*100    
+        af=(f/mv)*100    
+        ag=(g/mv)*100
+        labels = ['Closed Services', 'Pending Services', 'Accepted Services', 'Completed Services','Rejected Services']
+        sizes = [ac,af,ae,ag,ad]
+        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue','red']
+        explode = (0, 0.1, 0, 0,0)  
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+        ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
+        plt.title('Summary')
+        image_path = 'static/pie_chart1.png'
+        plt.savefig(image_path)
+        plt.close()
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.bar(labels,sizes, color='skyblue')
+        ax.set_xlabel('labels',fontsize=14)
+        ax.set_ylabel('size',fontsize=14)
+        ax.set_title('Services_Records',fontsize=18)
+        image_path1 = 'static/bar_chart1.png'
+        plt.savefig(image_path1)
+        plt.close()
+        return {"image_path":image_path,"image_path1":image_path1}

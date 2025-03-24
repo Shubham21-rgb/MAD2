@@ -5,11 +5,10 @@ export default{
         HOUSE-HOLD SERVICES BY UNITY
     </div>
     <div class="col-3 border d-flex align-items-center justify-content-between">
-        <router-link class="btn btn-primary" to="/login">Summary</router-link>
+        <router-link class="btn btn-primary" to="/cussummary">Summary</router-link>
         <div v-for="t in sot" class="d-inline">
             <router-link class="btn btn-primary" :to="{name:'cprofile',params:{id: t.id}}">Profile</router-link>
         </div>
-        <router-link class="btn btn-primary" to="/login">Search</router-link>
         <router-link class="btn btn-primary" to="/login">Logout</router-link>
     </div>
 </div>`,

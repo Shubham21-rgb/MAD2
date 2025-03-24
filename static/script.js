@@ -40,6 +40,8 @@ import ratemanagement from './components/ratemanagement.js'
 import professionalserviceadd from './components/professionalserviceadd.js'
 import adminsearch from './components/adminsearch.js'
 import customersearch from './components/customersearch.js'
+import adminsummary from './components/adminsummary.js'
+import customersummary from './components/customersummary.js'
 
 
 const routes=[
@@ -82,7 +84,9 @@ const routes=[
     {path:'/admin',component:admin},
     {path:'/adminupdate',component:admindelserv},
     {path:'/adminsearchin',component:adminsearch},
-    {path:'/customersearch',component:customersearch}
+    {path:'/customersearch',component:customersearch},
+    {path:'/adminsummary',component:adminsummary},
+    {path:'/cussummary',component:customersummary}
     
 
 ]
