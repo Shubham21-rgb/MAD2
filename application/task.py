@@ -5,6 +5,7 @@ import datetime
 import csv
 from .utils import format_report
 from .mail import send_email
+import requests
 
 @shared_task(ignore_result=False,name="download_csv_report")
 def csv_report():
@@ -49,5 +50,7 @@ def monthly_report():
 
 
 @shared_task(ignore_result=False,name="delivery_update")
-def delivery_reort():
-    return"The Delivery send to user"
+def delivery_report(username):
+    text=f"Hi {username},Check your Dasboard For the Changes From UNITY SERVICES"
+    response=requests.post("https://chat.googleapis.com/v1/spaces/AAAAo_5okZk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=0pUHMzXVfJXe6Ek4sPKqVQkihtDl33NviNw_yg_ZogA",json={"text":text})
+    return"The Updated Details send to user"

@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash,generate_password_hash
 from .resources import roles_list
 from .models import *
 from celery.result import AsyncResult
-from .task import csv_report,monthly_report
+from .task import csv_report,monthly_report,delivery_report
 from sqlalchemy import cast,Float
 import matplotlib
 matplotlib.use('Agg')
@@ -202,6 +202,8 @@ def log27(id):
     servicerequest=ServiceRequest.query.get(id)
     servicerequest.status="Accepted"
     db.session.commit()
+    user=servicerequest.bearer.username
+    request=delivery_report.delay(user)
     return{
         "message":"Updated Succesfully"
     }
@@ -214,6 +216,8 @@ def log26(id):
     servicerequest=ServiceRequest.query.get(id)
     servicerequest.status="Rejected"
     db.session.commit()
+    user=servicerequest.bearer.username
+    request=delivery_report.delay(user)
     return{
         "message":"Updated Succesfully"
     }
@@ -225,6 +229,8 @@ def log25(id):
     servicerequest=ServiceRequest.query.get(id)
     db.session.delete(servicerequest)
     db.session.commit()
+    user=servicerequest.bearer.username
+    request=delivery_report.delay(user)
     return{
         "message":"Deleted Succesfully"
     }
@@ -248,6 +254,8 @@ def log23(id):
     servicerequest=ServiceRequest.query.get(id)
     servicerequest.status="Completed"
     db.session.commit()
+    user=servicerequest.bearer.username
+    request=delivery_report.delay(user)
     return{
         "message":"Changed Succesfully"
     }
@@ -259,6 +267,8 @@ def log22(id):
     servicerequest=ServiceRequest.query.get(id)
     servicerequest.status="Closed"
     db.session.commit()
+    user=servicerequest.bearer.username
+    request=delivery_report.delay(user)
     return{
         "message":"Changed Succesfully"
     }
@@ -491,6 +501,8 @@ def aclose(id):
     if cus:
         cus.status="Closed"
         db.session.commit()
+        user=cus.bearer.username
+        request=delivery_report.delay(user)
         return{
             "message":"succesfully Restored"
         }
@@ -507,6 +519,8 @@ def adelete(id):
     if cus:
         db.session.delete(cus)
         db.session.commit()
+        user=cus.bearer.username
+        request=delivery_report.delay(user)
         return{
             "message":"succesfully Restored"
         }
@@ -523,6 +537,8 @@ def acomplete(id):
     if cus:
         cus.status="Completed"
         db.session.commit()
+        user=cus.bearer.username
+        request=delivery_report.delay(user)
         return{
             "message":"succesfully Restored"
         }
