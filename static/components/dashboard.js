@@ -8,6 +8,9 @@ export default{
     <n></n>
     <h2>Welcome {{userData.username}} Customer</h2>
     <div class="row border">
+            <div class="text-center"><router-link to="/customersearch" class="btn btn-success"><i class="fas fa-search">----------------------------Search----------------------------</i> </router-link></div>
+    </div>
+    <div class="row border">
         <div class="col-7 border" style="height: 750px; overflow-y:scroll">
             <h2>Services Available</h2>
             <div v-for="t in service" class="card">

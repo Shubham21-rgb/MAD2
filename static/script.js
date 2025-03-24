@@ -38,7 +38,8 @@ import admindelservices from './components/admindelservices.js'
 import rate from './components/rate.js'
 import ratemanagement from './components/ratemanagement.js'
 import professionalserviceadd from './components/professionalserviceadd.js'
-
+import adminsearch from './components/adminsearch.js'
+import customersearch from './components/customersearch.js'
 
 
 const routes=[
@@ -79,7 +80,10 @@ const routes=[
     {path:'/verify',component:verification},
     {path:'/adminratemanage/:id',name:'adminrate',component:ratemanagement},
     {path:'/admin',component:admin},
-    {path:'/adminupdate',component:admindelserv}
+    {path:'/adminupdate',component:admindelserv},
+    {path:'/adminsearchin',component:adminsearch},
+    {path:'/customersearch',component:customersearch}
+    
 
 ]
 const router=new VueRouter({

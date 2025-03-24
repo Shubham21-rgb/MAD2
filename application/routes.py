@@ -6,6 +6,7 @@ from .resources import roles_list
 from .models import *
 from celery.result import AsyncResult
 from .task import csv_report,monthly_report
+from sqlalchemy import cast,Float
 
 @app.route('/',methods=['GET'])
 def home():
@@ -680,7 +681,7 @@ def rateadmin123(ids):
     ser.remarks=body['remark']
     db.session.commit()
     return{
-        "message":"Succesfulley responded"
+        "message":"Succesfully responded"
     }
 
 ######################### 
@@ -690,14 +691,38 @@ def send_reports():
     return {
         "result": res.result
     }
-##########Testing Routes#########
-@app.route('/api/test')
-def test():
-    users = User.query.all()
-    er=[]
-    for i in users:
-        dat={}
-        if 'user' in i.roles:
-            dat['username']=i.username
-            er.append(dat)
-    return er
+############## Search FUnctionalities for Admin And Customers #############
+@app.route('/api/adminsearchin',methods=['POST'])
+def adminsearchin():
+    body=request.get_json()
+    tran=[]
+    if body['filter']=='Service_name':
+        ser=Service.query.filter_by(Service_name=body['search']).all()
+        for role in ser:
+            profess={}
+            profess["id"]=role.id
+            profess["Service_name"]=role.Service_name
+            profess["Time_required"]=role.Time_required
+            profess["Description"]=role.Description
+            profess["amount"]=role.amount
+            profess["prof_id"]=role.prof_id
+            tran.append(profess)
+
+    elif body['filter']=='amount':
+        ser=Service.query.filter(cast(Service.amount,Float) <= float(body['search'])).all()
+        print(f"Query Results: {ser}")
+        for role in ser:
+            profess={}
+            profess["id"]=role.id
+            profess["Service_name"]=role.Service_name
+            profess["Time_required"]=role.Time_required
+            profess["Description"]=role.Description
+            profess["amount"]=role.amount
+            profess["prof_id"]=role.prof_id
+            tran.append(profess)
+    if tran:
+        return tran
+    else:
+        return{
+            "message":"No Data"
+        }

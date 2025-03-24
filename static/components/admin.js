@@ -9,6 +9,7 @@ export default {
         <h2 class="my-2">Welcome, {{userData.username}}!</h2>
         <div class="row border">
             <div class="text-end"><router-link to="/adminupdate" class="btn btn-warning">Modify-Service</router-link></div>
+            <div class="text-center"><router-link to="/adminsearchin" class="btn btn-success"><i class="fas fa-search">----------------------------Search----------------------------</i> </router-link></div>
         </div>
         <div class="row border">
             <div class="text-end"><button @click="csvd" class="btn btn-info btn-sm">Download CSV</button></div>
